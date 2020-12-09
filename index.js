@@ -37,6 +37,8 @@ app.get('/game', (req, res) => {
     res.render('game');
 });
 
+
+
 app.post('/signup', async (req, res) => {
     const { name } = req.body;
 

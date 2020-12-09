@@ -33,7 +33,7 @@ class MapManager extends Manager {
     }
 }
 const constantManager = new ConstantManager(
-    JSON.parse(fs.readFileSync(__dirname + "/constants.json"))
+    JSON.parse(fs.readFileSync(__dirname + "/constant.json"))
 );
 
 const mapManager = new MapManager(
