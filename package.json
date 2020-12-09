@@ -18,8 +18,9 @@
   "homepage": "https://github.com/shintls0413/-2020-2-#readme",
   "dependencies": {
     "crypto": "^1.0.1",
+    "ejs": "^3.1.5",
     "express": "^4.17.1",
-    "mongoose": "^5.11.4",
+    "mongoose": "^5.11.5",
     "nodemon": "^2.0.6"
   },
   "devDependencies": {
