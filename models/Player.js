@@ -16,7 +16,6 @@ const Player = mongoose.model("Player", {
     y: { type: Number, default: 0 }
 });
 
-
 Player.methods.incrementHP = function (val) {
     const hp = this.hp + val;
     this.HP = Math.min(Math.max(0, hp), this.maxHP);
