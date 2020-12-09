@@ -32,6 +32,45 @@ class MapManager extends Manager {
         return this.fields[`${x}_${y}`];
     }
 }
+
+class ItemManager extends Manager {
+    constructor(datas) {
+        super();
+        this.items = {};
+        datas.forEach((item) => {
+            this.items[`${item.id}`] = {
+                id: item.id,
+                name: item.name,
+                type: item.type,
+                material: item.material,
+                buf: item.buf
+            };
+        });
+    }
+    getItem(id) {
+        return this.items[`${id}`];
+    }
+}
+
+class MonsterManager extends Manager {
+    constructor(datas) {
+        super();
+        this.monsters = {};
+        datas.forEach((monster) => {
+            this.monsters[`${monster.id}`] = {
+                id: monster.id,
+                name: monster.name,
+                str: monster.str,
+                def: monster.def,
+                hp: monster.hp
+            };
+        });
+    }
+    getMonster(id) {
+        return this.monsters[`${id}`];
+    }
+}
+
 const constantManager = new ConstantManager(
     JSON.parse(fs.readFileSync(__dirname + "/constant.json"))
 );
@@ -40,7 +79,17 @@ const mapManager = new MapManager(
     JSON.parse(fs.readFileSync(__dirname + "/map.json"))
 );
 
+const itemManager = new ItemManager(
+    JSON.parse(fs.readFileSync(__dirname + "/items.json"))
+);
+
+const monsterManager = new MonsterManager(
+    JSON.parse(fs.readFileSync(__dirname + "/monsters.json"))
+);
+
 module.exports = {
     constantManager,
-    mapManager
+    mapManager,
+    itemManager,
+    monsterManager
 };
