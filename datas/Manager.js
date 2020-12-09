@@ -93,3 +93,5 @@ module.exports = {
     itemManager,
     monsterManager
 };
+
+//testing
