@@ -162,28 +162,38 @@ app.post("/action", authentication, async (req, res) => {
 
             } else if (_event.type === "item") {
                 const thisItem = itemManager.getItem(_event.item);
-                if (thisItem.type === "무기") {
-                    event = {
-                        description: ` ${thisItem.material} ${thisItem.name}을 획득하였다.`
-                    };
-                    player.str += thisItem.buf;
-                } else if (thisItem.type === "갑옷" || thisItem.type === "장신구") {
-                    event = {
-                        description: `${thisItem.material} ${thisItem.name}을 획득하였다.`
-                    };
-                    player.def += thisItem.buf;
-                } else if (thisItem.type === "포션") {
-                    event = {
-                        description: `${thisItem.material} ${thisItem.name}을 획득해 체력을 회복했다.`
-                    };
-                    player.incrementHP(thisItem.buf);
+                if (thisItem.type === "공격") {
+                  event = {
+                    description: ` ${thisItem.material} ${thisItem.name}을 획득하였다.`
+                  };
+                  player.incrementSTR(thisItem.buf);
+                } else if (thisItem.type === "방어") {
+                  event = {
+                    description: `${thisItem.material} ${thisItem.name}을 획득하였다.`
+                  };
+                  player.incrementDEF(thisItem.buf);
+                } else if (thisItem.type === "회복") {
+                  event = {
+                    description: `${thisItem.material} ${thisItem.name}을 획득해 체력을 회복했다.`
+                  };
+                  player.incrementHP(thisItem.buf);
+                } else if (thisItem.type === "악화") {
+                  event = {
+                    description: `${thisItem.material} ${thisItem.name}때문에 체력을 떨어졌다.`
+                  };
+                  player.decrementHP(thisItem.buf);
+                  //죽을수도 있으니까 코드 추가해야함.
                 }
-            } else if (_event.type === "gambling") {
+              } else if (_event.type === "gambling") {
                 event = {
-                    description: "길을 가다가 수상한 할아버지가 도박을 하자고 말했다"
+                  description: "길을 가다가 수상한 할아버지가 도박을 하자고 말했다"
                 };
+              } else if (_event.type === "nothing") {
+                event = {
+                  description: "아무일도 일어나지 않았다."
+                };
+              }
             }
-        }
 
         await player.save();
         return res.send({ player, field, event });
