@@ -21,6 +21,12 @@ Player.methods.incrementHP = function (val) {
     this.HP = Math.min(Math.max(0, hp), this.maxHP);
 };
 
+Player.methods.death = function () {
+    this.HP = this.maxHP;
+    this.x = 0;
+    this.y = 0;
+}
+
 module.exports = {
     Player
 };
