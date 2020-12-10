@@ -55,8 +55,8 @@ app.post('/signup', async (req, res) => {
         HP: 10,
         str: 5,
         def: 5,
-        x: 9,
-        y: 5,
+        x: 0,
+        y: 0,
     });
 
     const key = crypto.randomBytes(24).toString('hex');
@@ -180,7 +180,17 @@ app.post('/action', authentication, async (req, res) => {
                     event = {
                         description: `${thisItem.material} ${thisItem.name}을 획득해 최대체력이 증가했다.`,
                     };
-                    player.incrementmaxHP(thisItem.buf);
+                    player.incrementmaxHP(thisItem.buf)
+                    player.incrementHP(thisItem.buf)
+                }
+                else if (thisItem.type === '교육') {
+                    event = {
+                        description: `${thisItem.material} ${thisItem.name}을 통해 다양한 능력치가 상승하였다.`,
+                    };
+                    player.incrementSTR(thisItem.buf)
+                    player.incrementDEF(thisItem.buf)
+                    player.incrementmaxHP(thisItem.buf)
+                    player.incrementHP(thisItem.buf)
                 }
             } else if (_event.type === 'gambling') {
                 event = {

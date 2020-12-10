@@ -1,77 +1,192 @@
 {
     "id": 1,
     "fields": [
-        [
-            0,
-            0,
-            "평원의 시작점이다.",
-            [
-                0,
-                1,
-                1,
-                0
-            ],
-            []
-        ],
-        [
-            1,
-            0,
-            "왠지 몬스터가 나올 것 같은 그런 스산한 분위기가 느껴진다.",
-            [
-                0,
-                0,
-                1,
-                1
-            ],
-            [
-                {
-                    "type": "battle",
-                    "monster": 1,
-                    "percent": 70
-                },
-                {
-                    "type": "item",
-                    "item": 1,
-                    "percent": 30
-                }
-            ]
-        ],
-        [
-            0,
-            1,
-            "행운이 찾아올 것 같다.",
-            [
-                1,
-                1,
-                0,
-                0
-            ],
-            [
-                {
-                    "type": "item",
-                    "item": 1,
-                    "percent": 70
-                },
-                {
-                    "type": "battle",
-                    "enemy": 1,
-                    "percent": 30
-                }
-            ]
-        ],
-        [
-            1,
-            1,
-            "아무것도 없다.",
-            [
-                1,
-                0,
-                0,
-                1
-            ],
-            [],
-            []
-        ],
+      [0, 0,
+        "서울대학교 벤처웹프로그래밍학과에 입학하신 여러분들을 축하드립니다. 여러분들은 1학년부터 4학년까지 4년 동안의 학교 생활을 하게 될 것입니다. 학교생활을 하면서 기쁜 일들도 있고 역경과 고난도 마주하게 될 것입니다. 하지만 수많은 일들을 잘 겪고나면 여러분들은 훌륭한 인재로 성장하게 될 것입니다. 자, 이제 밖으로 나가 버스를 타러갑시다.",
+        [0, 0, 1, 0],
+        []
+      ],
+      [
+        0, 1,
+        "버스 앞에서 과대에게 새터티를 받았다",
+        [0, 0, 1, 0],
+        [{ "type": "item", "item": 1001, "percent": 100 }]
+      ],
+      [
+        0, 2,
+        "새터 가는 버스에서 동기에게 초콜릿을 받았다. 달콤하다",
+        [0, 0, 1, 0],
+        [{ "type": "item", "item": 1002, "percent": 30 },
+          { "type": "item", "item": 1003, "percent": 60 },
+          { "type": "item", "item": 1004, "percent": 9 },
+          { "type": "item", "item": 1005, "percent": 1 }
+      ]
+    ],
+      [
+        0, 3,
+        "새터에 온걸 환영합니다. 레크레이션 진행 이후 이곳을 자유롭게 돌아다니시면 됩니다.레크레이션을 시작하겠습니다",
+        [0, 1, 1, 0],
+        [{ "type": "item", "item": 1006, "percent": 50 },
+          { "type": "item", "item": 1007, "percent": 50 }]
+      ],
+      [
+        0, 4,
+        "우린 술 강권안해. 근데 이 정돈 마셔야지?",
+        [0, 1, 0, 0],
+        [{ "type": "battle", "monster": 101, "percent": 100 }]
+      ],
+      [
+        1, 0,
+        "버스에서 초콜릿을 줬던 동기를 만나서 초콜릿을 받았다. 역시 달콤하다",
+        [0, 1, 0, 0],
+        [{ "type": "item", "item": 1002, "percent": 30 },
+          { "type": "item", "item": 1003, "percent": 60 },
+          { "type": "item", "item": 1004, "percent": 9 },
+          { "type": "item", "item": 1005, "percent": 1 }]
+      ],
+      [
+        1, 1,
+        "새터는 재미있었나요? 이제 버스를 타고 돌아갑시다",
+        [1, 0, 0, 0],
+        []
+      ],
+      [
+        1, 2,
+        "냉장고에 마실게 있나",
+        [1, 1, 1, 0],
+        [{ "type": "item", "item": 1009, "percent": 30 },
+          { "type": "item", "item": 1013, "percent": 50 },
+          { "type": "item", "item": 1016, "percent": 20 }]
+      ],
+      [
+        1, 3,
+        "술자리가 무르익어가고 있다",
+        [1, 1, 1, 0],
+        [{ "type": "item", "item": 1010, "percent": 10 },
+          { "type": "item", "item": 1011, "percent": 15 },
+          { "type": "item", "item": 1012, "percent": 5 },
+          { "type": "item", "item": 1013, "percent": 30 },
+          { "type": "battle", "monster": 102, "percent": 20 },
+          { "type": "battle", "monster": 103, "percent": 20 }]
+      ],
+      [
+        1, 4,
+        "술자리가 무르익어가고 있다",
+        [1, 0, 0, 1],
+        [{ "type": "item", "item": 1009, "percent": 30 },
+          { "type": "item", "item": 1010, "percent": 10 },
+          { "type": "battle", "monster": 102, "percent": 20 },
+          { "type": "battle", "monster": 103, "percent": 40 }]
+      ],
+      [
+        2, 0,
+        "학생회관앞에서 내렸다. 남쪽은 라운지볼, 동쪽은 학관식당이다. 밥을 라운지볼에서 먹을까? 학생식당에서 먹을까?",
+        [0, 1, 1, 0],
+        [{ "type": "item", "item": 1009, "percent": 100 }]
+      ],
+      [
+        2, 1,
+        "계단을 통해 라운지볼로 올라가자.",
+        [0, 1, 0, 0],
+        [{ "type": "battle", "monster": 105, "percent": 25 },
+          { "type": "nothing", "percent": 75 }]
+      ],
+      [
+        2, 2,
+        "술자리가 무르익어 가고 있다.",
+        [0, 0, 1, 1],
+        [{ "type": "item", "item": 1010, "percent": 10 },
+          { "type": "item", "item": 1011, "percent": 15 },
+          { "type": "item", "item": 1012, "percent": 5 },
+          { "type": "item", "item": 1013, "percent": 30 },
+          { "type": "battle", "monster": 102, "percent": 20 },
+          { "type": "battle", "monster": 103, "percent": 20 }]
+      ],
+      [
+        2, 3,
+        "밖으로 나가보려고? 꿀물 마시고가. 너무 멀리가면 위험하니 멀리가지는 말고. 선배가 꿀물을 건네주었다",
+        [1, 1, 0, 1],
+        [{ "type": "item", "item": 1008, "percent": 100 }]
+      ],
+      [
+        2, 4,
+        "별로 위험하지도 않네. 무엇이든 할 수 있을 것 같은 마음이 든다.",
+        [0, 1, 0, 0],
+        [{ "type": "item", "item": 1014, "percent": 50 },
+        { "type": "item", "item": 1015, "percent": 50 }]
+      ],
+      [
+        3, 0,
+        "오늘의 메뉴는 뭘까. 기대되는군.",
+        [0, 1, 0, 0],
+        [{ "type": "battle", "monster": 105, "percent": 25 },
+          { "type": "nothing", "percent": 75 }]
+      ],
+      [
+        3, 1,
+        "라운지볼에 도착했다. 뭘 먹을까?",
+        [0, 1, 0, 0],
+        [{ "type": "item", "item": 1017, "percent": 50 },
+          { "type": "item", "item": 1018, "percent": 30 },
+          { "type": "item", "item": 1019, "percent": 20 }]
+      ],
+      [
+        3, 2,
+        "조교님께 수학 질문을 하러 갔다. 듣다보니 피곤해졌다",
+        [0, 1, 0, 0],
+        [{ "type": "item", "item": 1024, "percent": 100 }]
+      ],
+      [
+        3, 3,
+        "밖은 생각보다 쌀쌀하다",
+        [0, 0, 1, 1],
+        [{ "type": "battle", "monster": 102, "percent": 20 },
+          { "type": "battle", "monster": 103, "percent": 40 },
+          { "type": "nothing", "percent": 40 }]
+      ],
+      [
+        3, 4,
+        "왠지 으스스하다",
+        [1, 0, 0, 1],
+        [{ "type": "battle", "monster": 104, "percent": 65 },
+          { "type": "nothing", "percent": 35 }]
+      ],
+      [
+        4, 0,
+        "학관식당이다",
+        [0, 0, 1, 0],
+        [{ "type": "item", "item": 1020, "percent": 30 },
+          { "type": "item", "item": 1021, "percent": 60 },
+          { "type": "item", "item": 1022, "percent": 10 }]
+      ],
+      [
+        4, 1,
+        "밥도 먹었으니 수업이나 들으러 가자",
+        [0, 0, 1, 0],
+        [{ "type": "battle", "monster": 105, "percent": 40 },
+          { "type": "nothing", "percent": 60 }]
+      ],
+      [
+        4, 2,
+        "수학 수업을 들었다.",
+        [0, 0, 1, 1],
+        [{ "type": "item", "item": 1023, "percent": 100 }]
+      ],
+      [
+        4, 3,
+        "시험 대비를 위해 수학 공부를 하자.",
+        [0, 0, 1, 0],
+        [{ "type": "item", "item": 1025, "percent": 70 },
+          { "type": "item", "item": 1026, "percent": 30 }]
+      ],
+      [
+        4, 4,
+        "수학 기말고사 날이다.",
+        [0, 1, 0, 0],
+        [{ "type": "battle", "monster": 106, "percent": 100 }]
+      ],
+
+      
         [5, 5, "다행히 부딫치지 않고 달리고 있는 중이다.", [0, 0, 1, 0], []],
         [
           6,
@@ -269,8 +384,6 @@
           [{ "type": "item", "item": 3004, "percent": 100 }]
         ]
       ]
-
-    
-    
-    
+     
+     
 }
