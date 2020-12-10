@@ -374,7 +374,7 @@
         "친구의 재촉 전화가 왔다. 더 급하게 뛰다 휘청했다.",
         [0, 0, 1, 0],
         [
-          { "type": "item", "item": 2011, "percent": 60 },
+          { "type": "item", "item": 3013, "percent": 60 },
           { "type": "nothing", "percent": 40 }
         ]
       ],
