@@ -13,7 +13,7 @@ const schema = new Schema({
   str: { type: Number, default: 5 },
   def: { type: Number, default: 5 },
   x: { type: Number, default: 0 },
-  y: { type: Number, default: 0 }
+  y: { type: Number, default: 0 },
 });
 schema.methods.incrementSTR = function (val) {
   this.str += val;
@@ -34,7 +34,13 @@ schema.methods.decrementHP = function (val) {
 };
 
 schema.methods.incrementmaxHP = function (val) {
-  this.maxHP + val;
+  this.maxHP += val;
+};
+
+schema.methods.death = function () {
+  this.HP = this.maxHP;
+  this.x = 0;
+  this.y = 0;
 };
 
 const Player = mongoose.model("Player", schema);
