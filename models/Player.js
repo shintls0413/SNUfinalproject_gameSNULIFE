@@ -33,6 +33,10 @@ schema.methods.decrementHP = function (val) {
   this.HP = Math.max(hp, 0);
 };
 
+schema.methods.incrementmaxHP = function (val) {
+  this.maxHP + val;
+};
+
 const Player = mongoose.model("Player", schema);
 
 module.exports = {

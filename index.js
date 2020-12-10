@@ -179,10 +179,15 @@ app.post("/action", authentication, async (req, res) => {
                   player.incrementHP(thisItem.buf);
                 } else if (thisItem.type === "악화") {
                   event = {
-                    description: `${thisItem.material} ${thisItem.name}때문에 체력을 떨어졌다.`
+                    description: `${thisItem.material} ${thisItem.name}때문에 체력이 떨어졌다.`
                   };
                   player.decrementHP(thisItem.buf);
                   //죽을수도 있으니까 코드 추가해야함.
+                } else if (thisItem.type === "최대체력증가") {
+                    event = {
+                      description: `${thisItem.material} ${thisItem.name}을 획득해 최대체력이 증가했다.`
+                    };
+                    player.incrementmaxHP(thisItem.buf);
                 }
               } else if (_event.type === "gambling") {
                 event = {
