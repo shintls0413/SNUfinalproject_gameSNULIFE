@@ -142,12 +142,12 @@ app.post('/action', authentication, async (req, res) => {
 
                         if (monsterAttack > 0) {
                             console.log(`monster attack : ${monsterAttack}`);
-                            if (player.hp - monsterAttack <= 0) {
-                                player.hp = 0;
+                            if (player.HP - monsterAttack <= 0) {
+                                player.HP = 0;
                                 console.log('Monster WIN!');
                                 player.death();
                                 break;
-                            } else player.hp -= monsterAttack;
+                            } else player.HP -= monsterAttack;
                         } else {
                             console.log('monster attack failed.');
                         }
