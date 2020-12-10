@@ -132,6 +132,7 @@ app.post('/action', authentication, async (req, res) => {
                                 thisMonster.hp = 0;
                                 console.log('Player WIN!');
                                 console.log(`player hp : ${player.HP}`);
+                                console.log(`${player.str}, ${player.def}, ${player.maxHP}`)
                                 break;
                             } else {
                                 thisMonster.hp -= playerAttack;
@@ -145,6 +146,7 @@ app.post('/action', authentication, async (req, res) => {
                             if (player.HP - monsterAttack <= 0) {
                                 player.HP = 0;
                                 console.log('Monster WIN!');
+                                console.log(`${player.str}, ${player.def}, ${player.maxHP}`)
                                 player.death();
                                 break;
                             } else player.HP -= monsterAttack;
