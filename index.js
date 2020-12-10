@@ -162,21 +162,25 @@ app.post('/action', authentication, async (req, res) => {
                         description: ` ${thisItem.material} ${thisItem.name}을 획득하였다.`,
                     };
                     player.incrementSTR(thisItem.buf);
+                    console.log(`${player.str}, ${player.def}, ${player.maxHP}`)
                 } else if (thisItem.type === '방어') {
                     event = {
                         description: `${thisItem.material} ${thisItem.name}을 획득하였다.`,
                     };
                     player.incrementDEF(thisItem.buf);
+                    console.log(`${player.str}, ${player.def}, ${player.maxHP}`)
                 } else if (thisItem.type === '회복') {
                     event = {
                         description: `${thisItem.material} ${thisItem.name}을 획득해 체력을 회복했다.`,
                     };
                     player.incrementHP(thisItem.buf);
+                    console.log(`${player.str}, ${player.def}, ${player.maxHP}`)
                 } else if (thisItem.type === '악화') {
                     event = {
                         description: `${thisItem.material} ${thisItem.name}때문에 체력이 떨어졌다.`,
                     };
                     player.decrementHP(thisItem.buf);
+                    console.log(`${player.str}, ${player.def}, ${player.maxHP}`)
                     // 죽을수도 있으니까 코드 추가해야함.
                 } else if (thisItem.type === '최대체력증가') {
                     event = {
@@ -184,6 +188,7 @@ app.post('/action', authentication, async (req, res) => {
                     };
                     player.incrementmaxHP(thisItem.buf)
                     player.incrementHP(thisItem.buf)
+                    console.log(`${player.str}, ${player.def}, ${player.maxHP}`)
                 }
                 else if (thisItem.type === '교육') {
                     event = {
@@ -193,6 +198,7 @@ app.post('/action', authentication, async (req, res) => {
                     player.incrementDEF(thisItem.buf)
                     player.incrementmaxHP(thisItem.buf)
                     player.incrementHP(thisItem.buf)
+                    console.log(`${player.str}, ${player.def}, ${player.maxHP}`)
                 }
             } else if (_event.type === 'gambling') {
                 event = {
