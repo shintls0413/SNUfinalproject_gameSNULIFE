@@ -212,8 +212,19 @@ app.post('/action', authentication, async (req, res) => {
         }
 
         await player.save();
-        return res.send({ player, field, event });
+        
     }
+
+    field.canGo.forEach((direction, i) => {
+        if (direction === 1)
+          actions.push({
+            url: "/action",
+            text: i,
+            params: { direction: i, action: "move" }
+          });
+      });
+    
+      return res.send({ player, field, event, actions });
 });
 
 app.listen(3000);
