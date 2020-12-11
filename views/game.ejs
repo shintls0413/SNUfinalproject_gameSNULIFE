@@ -12,6 +12,8 @@
         HP: <span id="HP"> 5 / 5</span>
     </div>
     <div id="game"></div>
+    <br />
+    <div id="event_title"></div>
     <div id="event_result"></div>
     <div id="control">
         <button value="1">동</button>
@@ -49,6 +51,7 @@
                 })
 
                 if (event) {
+                    $('#event_title').text(event.title);
                     $('#event_result').text(event.description);
                 } else {
                     $('#event_result').text("아무일도 일어나지 않았다.");
