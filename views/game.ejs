@@ -15,11 +15,15 @@
     <br />
     <div id="event_title"></div>
     <div id="event_result"></div>
+    <br />
+    <div id="battle_result"></div>
+    <br />
     <div id="control">
         <button value="1">동</button>
         <button value="3">서</button>
         <button value="2">남</button>
         <button value="0">북</button>
+        <button value="5">부활</button>
     </div>
 
     <script>
@@ -33,27 +37,66 @@
                 method: "POST",
                 data: `action=${action}&direction=${params.direction}`,
             }).done((req) => {
-                const { player, field, event } = req;
+                const { player, field, event, battleResult } = req;
 
                 $('#game').text(field.description);
                 $('#position').text(`(${field.x},${field.y})`);
                 const x = field.x;
                 const y = field.y;
-                field.canGo.forEach((canGo, idx) => {
-                    const dom = $(`button[value="${idx}"]`);
-                    canGo === 0 ? dom.hide() : dom.show();
-                    dom.unbind('click');
-                    if (canGo === 1) {
-                        dom.bind('click', function () {
-                            sendAction('move', { direction: idx });
-                        });
-                    }
-                })
+
+                if (battleResult) {
+                    alert('! ! ! BATTLE ! ! !');
+                    $('button[value="1"]').hide();
+                    $('button[value="1"]').unbind('click');
+                    $('button[value="2"]').hide();
+                    $('button[value="2"]').unbind('click');
+                    $('button[value="3"]').hide();
+                    $('button[value="3"]').unbind('click');
+                    $('button[value="0"]').hide();
+                    $('button[value="0"]').unbind('click');
+                    $('button[value="5"]').hide();
+                    $('button[value="5"]').unbind('click');
+                    setTimeout(function () {
+                        $('#battle_result').text(battleResult.description);
+                        if (!battleResult.win) {
+                            $('button[value="5"]').show();
+                            $('button[value="5"]').bind('click', function () {
+                                sendAction('revive');
+                            });
+                        } else {
+                            field.canGo.forEach((canGo, idx) => {
+                                const dom = $(`button[value="${idx}"]`);
+                                canGo === 0 ? dom.hide() : dom.show();
+                                dom.unbind('click');
+                                if (canGo === 1) {
+                                    dom.bind('click', function () {
+                                        sendAction('move', { direction: idx });
+                                    });
+                                }
+                            })
+                            $('button[value="5"]').hide();
+                        }
+                    }, 3000);
+                } else {
+                    $('#battle_result').text('');
+                    field.canGo.forEach((canGo, idx) => {
+                        const dom = $(`button[value="${idx}"]`);
+                        canGo === 0 ? dom.hide() : dom.show();
+                        dom.unbind('click');
+                        if (canGo === 1) {
+                            dom.bind('click', function () {
+                                sendAction('move', { direction: idx });
+                            });
+                        }
+                    })
+                    $('button[value="5"]').hide();
+                }
 
                 if (event) {
                     $('#event_title').text(event.title);
                     $('#event_result').text(event.description);
                 } else {
+                    $('#event_title').text('');
                     $('#event_result').text("아무일도 일어나지 않았다.");
                 }
 
