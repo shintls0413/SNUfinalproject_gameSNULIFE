@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const schema = new Schema({
   name: String,
   key: String,
-
+  Inven : Array,
   level: Number,
   exp: Number,
 
