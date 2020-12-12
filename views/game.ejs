@@ -56,6 +56,7 @@
                     $('button[value="0"]').unbind('click');
                     $('button[value="5"]').hide();
                     $('button[value="5"]').unbind('click');
+                    $('#battle_result').text('');
                     setTimeout(function () {
                         $('#battle_result').text(battleResult.description);
                         if (!battleResult.win) {
