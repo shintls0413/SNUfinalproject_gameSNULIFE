@@ -176,10 +176,12 @@ app.post('/action', authentication, async (req, res) => {
                 if (thisItem.type === '공격') {
                     event.description = ` ${thisItem.material} ${thisItem.name}을 획득하였다.`;
                     player.incrementSTR(thisItem.buf);
+                    player.getItem(thisItem);
                     console.log(`${player.str}, ${player.def}, ${player.maxHP}`);
                 } else if (thisItem.type === '방어') {
                     event.description = ` ${thisItem.material} ${thisItem.name}을 획득하였다.`;
                     player.incrementDEF(thisItem.buf);
+                    player.getItem(thisItem);
                     console.log(`${player.str}, ${player.def}, ${player.maxHP}`);
                 } else if (thisItem.type === '회복') {
                     event.description = `${thisItem.material} ${thisItem.name}을 획득해 체력을 회복했다.`;
@@ -214,6 +216,14 @@ app.post('/action', authentication, async (req, res) => {
                     description: '아무일도 일어나지 않았다.',
                 };
             }
+        }
+        if (action === 'checkInventory') {
+            const invenItem = [];
+            playerItem.showInventory.forEach((elem)=>{
+                invenItem.push(elem.name);
+            })
+    
+            return res.send({ player, field,invenItem });
         }
 
         await player.save();

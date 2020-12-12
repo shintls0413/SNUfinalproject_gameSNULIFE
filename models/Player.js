@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const schema = new Schema({
   name: String,
   key: String,
-  Inven : Array,
+  Inventory : Array,
   level: Number,
   exp: Number,
 
@@ -42,6 +42,18 @@ schema.methods.death = function () {
   this.x = 0;
   this.y = 0;
 };
+
+schema.methods.getItem = function(obj) {
+  if(!this.Inventory.some((elem)=>{
+    return elem.id === obj.id;
+  })){
+    this.Inventory.push(obj);
+  }
+}
+
+schema.methods.showInventory = function(){
+  return this.Inventory;
+}
 
 const Player = mongoose.model("Player", schema);
 

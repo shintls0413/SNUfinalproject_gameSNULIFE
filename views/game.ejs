@@ -18,6 +18,10 @@
     <br />
     <div id="battle_result"></div>
     <br />
+    <div id="Check Inventory">
+        <!-- <button value="10">나의 스탯</button>
+        <button value="20">나의 인벤토리</button> -->
+    </div>
     <div id="control">
         <button value="1">동</button>
         <button value="3">서</button>
@@ -37,7 +41,7 @@
                 method: "POST",
                 data: `action=${action}&direction=${params.direction}`,
             }).done((req) => {
-                const { player, field, event, battleResult } = req;
+                const { player, field, event, battleResult, checkInventory } = req;
 
                 $('#game').text(field.description);
                 $('#position').text(`(${field.x},${field.y})`);
