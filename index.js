@@ -130,7 +130,7 @@ app.post('/action', authentication, async (req, res) => {
                 const thisMonster = monsterManager.getMonster(_event.monster);
                 event = {
                     title: '! ! ! BATTLE ! ! !',
-                    description: `${thisMonster.name}를 마주쳐 싸움을 벌였다.`,
+                    description: `"${thisMonster.name}"을(를) 마주쳐 싸움을 벌였다.`,
                 };
 
                 const playerStr = player.str - thisMonster.def;
@@ -148,7 +148,7 @@ app.post('/action', authentication, async (req, res) => {
                                 thisMonster.hp = 0;
                                 battleResult = {
                                     win: true,
-                                    description: `${thisMonster.name}과의 싸움에서 승리했다.`,
+                                    description: `"${thisMonster.name}"와(과)의 싸움에서 승리했다.`,
                                 };
                                 break;
                             } else {
@@ -161,7 +161,7 @@ app.post('/action', authentication, async (req, res) => {
                                 player.HP = 0;
                                 battleResult = {
                                     win: false,
-                                    description: `${thisMonster.name}과의 싸움에서 패배했다. 다시 1학년으로 돌아간다.`,
+                                    description: `"${thisMonster.name}"와(과)의 싸움에서 패배했다. 다시 1학년으로 돌아간다.`,
                                 };
                                 break;
                             } else player.HP -= monsterAttack;
@@ -174,31 +174,31 @@ app.post('/action', authentication, async (req, res) => {
                     title: '--- 아이템 획득 ---',
                 };
                 if (thisItem.type === '공격') {
-                    event.description = ` ${thisItem.material} ${thisItem.name}을 획득하였다.`;
+                    event.description = `"${thisItem.material} ${thisItem.name}"을(를) 획득하였다.`;
                     player.incrementSTR(thisItem.buf);
                     player.getItem(thisItem);
                     console.log(`${player.str}, ${player.def}, ${player.maxHP}`);
                 } else if (thisItem.type === '방어') {
-                    event.description = ` ${thisItem.material} ${thisItem.name}을 획득하였다.`;
+                    event.description = `"${thisItem.material} ${thisItem.name}"을(를) 획득하였다.`;
                     player.incrementDEF(thisItem.buf);
                     player.getItem(thisItem);
                     console.log(`${player.str}, ${player.def}, ${player.maxHP}`);
                 } else if (thisItem.type === '회복') {
-                    event.description = `${thisItem.material} ${thisItem.name}을 획득해 체력을 회복했다.`;
+                    event.description = `"${thisItem.material} ${thisItem.name}"을(를) 획득해 체력을 회복했다.`;
                     player.incrementHP(thisItem.buf);
                     console.log(`${player.str}, ${player.def}, ${player.maxHP}`);
                 } else if (thisItem.type === '악화') {
-                    event.description = `${thisItem.material} ${thisItem.name}때문에 체력이 떨어졌다.`;
+                    event.description = `"${thisItem.material} ${thisItem.name}" 때문에 체력이 떨어졌다.`;
                     player.decrementHP(thisItem.buf);
                     console.log(`${player.str}, ${player.def}, ${player.maxHP}`);
                     // 죽을수도 있으니까 코드 추가해야함.
                 } else if (thisItem.type === '최대체력증가') {
-                    event.description = `${thisItem.material} ${thisItem.name}을 획득해 최대체력이 증가했다.`;
+                    event.description = `"${thisItem.material} ${thisItem.name}"을(를) 획득해 최대체력이 증가했다.`;
                     player.incrementmaxHP(thisItem.buf);
                     player.incrementHP(thisItem.buf);
                     console.log(`${player.str}, ${player.def}, ${player.maxHP}`);
                 } else if (thisItem.type === '교육') {
-                    event.description = `${thisItem.material} ${thisItem.name}을 통해 다양한 능력치가 상승하였다.`;
+                    event.description = `"${thisItem.material} ${thisItem.name}"을(를) 통해 다양한 능력치가 상승하였다.`;
                     player.incrementSTR(thisItem.buf);
                     player.incrementDEF(thisItem.buf);
                     player.incrementmaxHP(thisItem.buf);
@@ -219,11 +219,11 @@ app.post('/action', authentication, async (req, res) => {
         }
         if (action === 'checkInventory') {
             const invenItem = [];
-            playerItem.showInventory.forEach((elem)=>{
+            playerItem.showInventory.forEach((elem) => {
                 invenItem.push(elem.name);
             })
-    
-            return res.send({ player, field,invenItem });
+
+            return res.send({ player, field, invenItem });
         }
 
         await player.save();

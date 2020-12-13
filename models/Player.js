@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const schema = new Schema({
   name: String,
   key: String,
-  Inventory : Array,
+  Inventory: Array,
   level: Number,
   exp: Number,
 
@@ -37,21 +37,15 @@ schema.methods.incrementmaxHP = function (val) {
   this.maxHP += val;
 };
 
-schema.methods.death = function () {
-  this.HP = this.maxHP;
-  this.x = 0;
-  this.y = 0;
-};
-
-schema.methods.getItem = function(obj) {
-  if(!this.Inventory.some((elem)=>{
+schema.methods.getItem = function (obj) {
+  if (!this.Inventory.some((elem) => {
     return elem.id === obj.id;
-  })){
+  })) {
     this.Inventory.push(obj);
   }
 }
 
-schema.methods.showInventory = function(){
+schema.methods.showInventory = function () {
   return this.Inventory;
 }
 
