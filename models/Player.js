@@ -15,6 +15,7 @@ const schema = new Schema({
   x: { type: Number, default: 0 },
   y: { type: Number, default: -1 },
 });
+
 schema.methods.incrementSTR = function (val) {
   this.str += val;
 };
@@ -42,6 +43,13 @@ schema.methods.getItem = function (obj) {
     return elem.id === obj.id;
   })) {
     this.Inventory.push(obj);
+  }
+}
+
+schema.methods.lostItem = function (){
+  if(this.Inventory.length!=0){
+    const lostId = Math.floor(Math.random()*(this.Inventory.lenght));
+    this.Inventory = this.Inventory.splice(lostId,1);
   }
 }
 

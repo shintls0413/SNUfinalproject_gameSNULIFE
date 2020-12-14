@@ -84,6 +84,7 @@ app.post('/action', authentication, async (req, res) => {
         player.HP = player.maxHP;
         player.x = 0;
         player.y = 0;
+        player.lostItem();
 
         await player.save();
     }
