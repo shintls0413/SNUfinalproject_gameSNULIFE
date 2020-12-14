@@ -9,7 +9,9 @@
     <div id="position"></div>
 
     <div id="status">
-        HP: <span id="HP"> 5 / 5</span>
+        HP: <span id="HP"> 10 / 10</span>
+        STR: <span id="STR"> 5 / 5</span>
+        DEF: <span id="DEF"> 5 / 5</span>
     </div>
     <div id="game"></div>
     <br />
@@ -23,6 +25,9 @@
         <button value="20">나의 인벤토리</button> -->
     </div>
     <div id="control">
+        <!-- <form>
+            <input type="button" value="스탯 재분배"></input>
+        </form> -->
         <button value="1">동</button>
         <button value="3">서</button>
         <button value="2">남</button>
@@ -47,6 +52,11 @@
                 $('#position').text(`(${field.x},${field.y})`);
                 const x = field.x;
                 const y = field.y;
+                
+                // const statBtn = document.querySelector('input');
+                // statBtn.addEventListener('click', sendAction('restat'));
+
+                
 
                 if (battleResult) {
                     alert('! ! ! BATTLE ! ! !');
@@ -106,6 +116,8 @@
                 }
 
                 $('#HP').text(`${player.HP} / ${player.maxHP}`)
+                $('#STR').text(`${player.str}`)
+                $('#DEF').text(`${player.def}`)
             });
 
         }

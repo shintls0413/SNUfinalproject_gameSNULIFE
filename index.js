@@ -51,12 +51,12 @@ app.post('/signup', async (req, res) => {
 
     const player = new Player({
         name,
-        maxHP: 10,
-        HP: 10,
-        str: 5,
-        def: 5,
+        maxHP: Math.round(10 * (Math.random()) + 5),
+        HP: Math.round(10 * (Math.random()) + 5),
+        str: Math.round(4 * (Math.random()) + 3),
+        def: Math.round(4 * (Math.random()) + 3),
         x: 0,
-        y: 0,
+        y: -1,
     });
 
     const key = crypto.randomBytes(24).toString('hex');
@@ -87,6 +87,7 @@ app.post('/action', authentication, async (req, res) => {
 
         await player.save();
     }
+    
     if (action === 'move') {
         const direction = parseInt(req.body.direction, 0); // 0 북. 1 동 . 2 남. 3 서.
         let { x } = req.player;
@@ -228,6 +229,14 @@ app.post('/action', authentication, async (req, res) => {
 
         await player.save();
     }
+    // else if (action === 'restat') {
+    //     player.maxHP = Math.round(10 * (Math.random()) + 5);
+    //     player.str = Math.round(4 * (Math.random()) + 3);
+    //     player.def = Math.round(4 * (Math.random()) + 3);
+    //     player.HP = player.maxHP;
+
+    //     await player.save();
+    // }
 
     field.canGo.forEach((direction, i) => {
         if (direction === 1) {

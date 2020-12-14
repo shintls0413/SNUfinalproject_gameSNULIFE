@@ -13,7 +13,7 @@ const schema = new Schema({
   str: { type: Number, default: 5 },
   def: { type: Number, default: 5 },
   x: { type: Number, default: 0 },
-  y: { type: Number, default: 0 },
+  y: { type: Number, default: -1 },
 });
 schema.methods.incrementSTR = function (val) {
   this.str += val;
