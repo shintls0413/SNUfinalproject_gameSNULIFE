@@ -57,6 +57,9 @@ app.post('/signup', async (req, res) => {
         def: 5,
         x: 0,
         y: 0,
+        //exp 기본값 추가
+        exp: 0,
+        level: 0,
     });
 
     const key = crypto.randomBytes(24).toString('hex');
@@ -74,6 +77,7 @@ app.post('/action', authentication, async (req, res) => {
     let event = null;
     const actions = [];
     let battleResult = null;
+//    let levelUpResult = null;
     if (action === 'query') {
         field = mapManager.getField(req.player.x, req.player.y);
 
@@ -84,9 +88,22 @@ app.post('/action', authentication, async (req, res) => {
         player.HP = player.maxHP;
         player.x = 0;
         player.y = 0;
-
+        //player 경험치 초기화
+        player.exp = 0;
+        
         await player.save();
     }
+    /*levelup action
+    if (action === 'levelUp') {
+        player.level += 1
+        player.str += 3
+        player.def += 3
+        player.maxHP += 3
+        player.HP = player.maxHP;
+        //player 경험치 초기화
+        player.exp = 0;
+        await player.save();
+    }*/
     if (action === 'move') {
         const direction = parseInt(req.body.direction, 0); // 0 북. 1 동 . 2 남. 3 서.
         let { x } = req.player;
@@ -150,6 +167,22 @@ app.post('/action', authentication, async (req, res) => {
                                     win: true,
                                     description: `"${thisMonster.name}"와(과)의 싸움에서 승리했다.`,
                                 };
+                                //경험치 획득
+                                //player.exp += thisMonster.exp;
+/*경험치 20도달시에 levelup
+                                if (player.exp = 20) {
+                                    player.level += 1;
+                                    player.exp = 0;
+                                        levelUpResult = {
+                                            levelUp: true,
+                                            title: 'LEVEL UP!!!',
+                                            description: '능력치가 상승했다.'
+                                    }} else {
+                                        levelUpResult = {
+                                            levelUp: false,
+                                            description: `경험치 ${thisMonster.exp}를 획득했다.`
+                                        }
+                                    }  */                      
                                 break;
                             } else {
                                 thisMonster.hp -= playerAttack;
@@ -215,7 +248,7 @@ app.post('/action', authentication, async (req, res) => {
                     title: '',
                     description: '아무일도 일어나지 않았다.',
                 };
-            }
+            };
         }
         if (action === 'checkInventory') {
             const invenItem = [];

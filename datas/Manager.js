@@ -62,7 +62,9 @@ class MonsterManager extends Manager {
                 name: monster.name,
                 str: monster.str,
                 def: monster.def,
-                hp: monster.hp
+                hp: monster.hp,
+                //exp 추가
+                exp: monster.exp,
             };
         });
     }

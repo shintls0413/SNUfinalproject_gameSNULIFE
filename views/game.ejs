@@ -10,6 +10,7 @@
 
     <div id="status">
         HP: <span id="HP"> 5 / 5</span>
+        EXP: <span id="EXP"> 0</span>
     </div>
     <div id="game"></div>
     <br />
@@ -28,6 +29,7 @@
         <button value="2">남</button>
         <button value="0">북</button>
         <button value="5">부활</button>
+        <button value="6">레벨업!</button>
     </div>
 
     <script>
@@ -41,7 +43,7 @@
                 method: "POST",
                 data: `action=${action}&direction=${params.direction}`,
             }).done((req) => {
-                const { player, field, event, battleResult, checkInventory } = req;
+                const { player, field, event, battleResult, levelUpResult, checkInventory} = req;
 
                 $('#game').text(field.description);
                 $('#position').text(`(${field.x},${field.y})`);
@@ -60,7 +62,10 @@
                     $('button[value="0"]').unbind('click');
                     $('button[value="5"]').hide();
                     $('button[value="5"]').unbind('click');
+                    //$('button[value="6"]').hide();
+                    //$('button[value="6"]').unbind('click');
                     $('#battle_result').text('');
+                    //$('#levelUp_result').text('');
                     setTimeout(function () {
                         $('#battle_result').text(battleResult.description);
                         if (!battleResult.win) {
@@ -68,8 +73,15 @@
                             $('button[value="5"]').bind('click', function () {
                                 sendAction('revive');
                             });
-                        } else {
-                            field.canGo.forEach((canGo, idx) => {
+                        } 
+ /*                       else{
+                            if (!levelUpResult.levelUp) {
+                            $('#levelUp_result').text(levelUpResult.description);
+                            $('button[value="6"]').show();
+                            $('button[value="6"]').bind('click', function () {
+                                sendAction('levelUp');
+                                });
+                            } else {field.canGo.forEach((canGo, idx) => {
                                 const dom = $(`button[value="${idx}"]`);
                                 canGo === 0 ? dom.hide() : dom.show();
                                 dom.unbind('click');
@@ -77,11 +89,23 @@
                                     dom.bind('click', function () {
                                         sendAction('move', { direction: idx });
                                     });
+                            }
+                            })};   
+                        }; */
+                        else{ 
+                            field.canGo.forEach((canGo, idx) => {
+                            const dom = $(`button[value="${idx}"]`);
+                            canGo === 0 ? dom.hide() : dom.show();
+                            dom.unbind('click');
+                            if (canGo === 1) {
+                                    dom.bind('click', function () {
+                                    sendAction('move', { direction: idx });
+                                    });
                                 }
-                            })
+                            })} 
                             $('button[value="5"]').hide();
-                        }
-                    }, 3000);
+                            //$('button[value="6"]').hide();
+                        }, 3000);
                 } else {
                     $('#battle_result').text('');
                     field.canGo.forEach((canGo, idx) => {
@@ -95,6 +119,7 @@
                         }
                     })
                     $('button[value="5"]').hide();
+                    $('button[value="6"]').hide();
                 }
 
                 if (event) {
@@ -106,6 +131,7 @@
                 }
 
                 $('#HP').text(`${player.HP} / ${player.maxHP}`)
+                $('#EXP').text(`${player.exp}`)
             });
 
         }

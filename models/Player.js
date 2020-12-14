@@ -5,9 +5,9 @@ const schema = new Schema({
   name: String,
   key: String,
   Inventory: Array,
-  level: Number,
-  exp: Number,
-
+  
+  exp: { type: Number, default: 0 },
+  level: { type: Number, default: 0 },
   maxHP: { type: Number, default: 10 },
   HP: { type: Number, default: 10 },
   str: { type: Number, default: 5 },
@@ -37,6 +37,12 @@ schema.methods.incrementmaxHP = function (val) {
   this.maxHP += val;
 };
 
+schema.methods.incrementExp = function (val) {
+  this.exp += val;
+};
+
+
+
 schema.methods.getItem = function (obj) {
   if (!this.Inventory.some((elem) => {
     return elem.id === obj.id;
@@ -48,6 +54,7 @@ schema.methods.getItem = function (obj) {
 schema.methods.showInventory = function () {
   return this.Inventory;
 }
+
 
 const Player = mongoose.model("Player", schema);
 
