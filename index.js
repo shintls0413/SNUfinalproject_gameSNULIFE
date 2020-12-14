@@ -67,11 +67,15 @@ app.post('/signup', async (req, res) => {
     return res.send({ key });
 });
 
+
+
 app.post('/action', authentication, async (req, res) => {
     const { action } = req.body;
     const { player } = req;
     let field = null;
     let event = null;
+    let invenItem = null;
+    let itemList = null;
     const actions = [];
     let battleResult = null;
     if (action === 'query') {
@@ -79,6 +83,36 @@ app.post('/action', authentication, async (req, res) => {
 
         return res.send({ player, field });
     }
+    invenItem = [];
+    player.showInventory().forEach((elem) => {
+        invenItem.push(elem.name);
+    })
+    const itemString = invenItem.join(',');
+    itemList = {
+        description : itemString
+    }
+    console.log(invenItem, itemList);
+    console.log(itemList.description);
+    if(action === 'query2'){
+        field = mapManager.getField(req.player.x, req.player.y);
+
+        return res.send({ player, field, itemList });
+    }
+
+    
+    // if (action === 'checkInventory') {
+    //     invenItem = [];
+    //     player.showInventory().forEach((elem) => {
+    //         invenItem.push(elem.name);
+    //     })
+    //     const itemString = invenItem.join(',');
+    //     itemList = {
+    //         description : itemString
+    //     }
+    //     console.log(invenItem, itemList);
+    // } // 보류 
+
+
     if (action === 'revive') {
         field = mapManager.getField(0, 0);
         player.HP = player.maxHP;
@@ -88,7 +122,6 @@ app.post('/action', authentication, async (req, res) => {
 
         await player.save();
     }
-    
     if (action === 'move') {
         const direction = parseInt(req.body.direction, 0); // 0 북. 1 동 . 2 남. 3 서.
         let { x } = req.player;
@@ -101,7 +134,10 @@ app.post('/action', authentication, async (req, res) => {
             y += 1;
         } else if (direction === 3) {
             x -= 1;
-        } else {
+        } else if (direction === 20){
+            
+        }
+        else {
             res.sendStatus(400);
         }
         field = mapManager.getField(x, y);
@@ -219,15 +255,7 @@ app.post('/action', authentication, async (req, res) => {
                 };
             }
         }
-        if (action === 'checkInventory') {
-            const invenItem = [];
-            playerItem.showInventory.forEach((elem) => {
-                invenItem.push(elem.name);
-            })
-
-            return res.send({ player, field, invenItem });
-        }
-
+        
         await player.save();
     }
     // else if (action === 'restat') {
@@ -239,18 +267,18 @@ app.post('/action', authentication, async (req, res) => {
     //     await player.save();
     // }
 
-    field.canGo.forEach((direction, i) => {
-        if (direction === 1) {
-            actions.push({
-                url: '/action',
-                text: i,
-                params: { direction: i, action: 'move' },
-            });
-        }
-    });
+    // field.canGo.forEach((direction, i) => {
+    //     if (direction === 1) {
+    //         actions.push({
+    //             url: '/action',
+    //             text: i,
+    //             params: { direction: i, action: 'move' },
+    //         });
+    //     }
+    // });
 
     return res.send({
-        player, field, event, actions, battleResult,
+        player, field, event, actions, battleResult, invenItem, itemList
     });
 });
 
