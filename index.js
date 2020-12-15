@@ -79,6 +79,8 @@ app.post('/action', authentication, async (req, res) => {
     let itemList = null;
     const actions = [];
     let battleResult = null;
+    const battleContent = [];
+    let dead = false;
     //    let levelUpResult = null;
     if (action === 'query') {
         field = mapManager.getField(req.player.x, req.player.y);
@@ -93,7 +95,7 @@ app.post('/action', authentication, async (req, res) => {
     itemList = {
         description: itemString,
     };
-    console.log(invenItem, itemList);
+    //console.log(invenItem, itemList);
     console.log(itemList.description);
     if (action === 'query2') {
         field = mapManager.getField(req.player.x, req.player.y);
@@ -126,16 +128,16 @@ app.post('/action', authentication, async (req, res) => {
         await player.save();
     }
     /* levelup action
-      if (action === 'levelUp') {
-          player.level += 1
-          player.str += 3
-          player.def += 3
-          player.maxHP += 3
-          player.HP = player.maxHP;
-          //player 경험치 초기화
-          player.exp = 0;
-          await player.save();
-      } */
+            if (action === 'levelUp') {
+                player.level += 1
+                player.str += 3
+                player.def += 3
+                player.maxHP += 3
+                player.HP = player.maxHP;
+                //player 경험치 초기화
+                player.exp = 0;
+                await player.save();
+            } */
     if (action === 'move') {
         const direction = parseInt(req.body.direction, 0); // 0 북. 1 동 . 2 남. 3 서.
         let { x } = req.player;
@@ -194,42 +196,36 @@ app.post('/action', authentication, async (req, res) => {
                             monsterStr * (Math.random() + 0.5),
                         );
                         const battleExp = player.exp + thisMonster.exp;
-                        if (playerAttack > 0 && battleExp < 20) {
+                        if (playerAttack > 0) {
+                            battleContent.push(`${player.name}는 "${thisMonster.name}"에게 "${playerAttack}"의 데미지를 입혔다.`);
                             if (thisMonster.hp - playerAttack <= 0) {
                                 thisMonster.hp = 0;
-                                battleResult = {
-                                    win: true,
-                                    description: `"${thisMonster.name}"와(과)의 싸움에서 승리했다. 경험치 "${thisMonster.exp}"을 획득했다.`,
-                                };
-                                // 경험치 획득
-                                player.exp = battleExp;
+                                if (battleExp < 20) {
+                                    battleResult = {
+                                        win: true,
+                                        description: `"${thisMonster.name}"와(과)의 싸움에서 승리했다. 경험치 "${thisMonster.exp}"을 획득했다.`,
+                                    };
+                                    // 경험치 획득
+                                    player.exp = battleExp;
+                                } else {
+                                    battleResult = {
+                                        win: true,
+                                        description: `"${thisMonster.name}"와(과)의 싸움에서 승리했다. Level-UP! 스텟이 상승했다!`,
+                                    };
+                                    // 경험치 획득
+                                    player.exp = 0;
+                                    player.level += 1;
+                                    player.str += 3;
+                                    player.def += 3;
+                                    player.maxHP += 5;
+                                    player.HP = player.maxHP;
+                                }
                                 break;
-                            } else {
-                                thisMonster.hp -= playerAttack;
-                            }
-                        }
-                        if (playerAttack > 0 && battleExp >= 20) {
-                            if (thisMonster.hp - playerAttack <= 0) {
-                                thisMonster.hp = 0;
-                                battleResult = {
-                                    win: true,
-                                    description: `"${thisMonster.name}"와(과)의 싸움에서 승리했다. Level-UP! 스텟이 상승했다!`,
-                                };
-                                // 경험치 획득
-                                player.exp = 0;
-                                player.level += 1;
-                                player.str += 3;
-                                player.def += 3;
-                                player.maxHP += 5;
-                                player.HP = player.maxHP;
-                                console.log(player.level);
-                                break;
-                            } else {
-                                thisMonster.hp -= playerAttack;
-                            }
-                        }
+                            } else thisMonster.hp -= playerAttack;
+                        } else battleContent.push(`"${player.name}"은 공격에 실패했다.`);
 
                         if (monsterAttack > 0) {
+                            battleContent.push(`"${thisMonster.name}"는 ${player.name}에게 "${monsterAttack}"의 데미지를 입혔다.`);
                             if (player.HP - monsterAttack <= 0) {
                                 player.HP = 0;
                                 battleResult = {
@@ -237,8 +233,10 @@ app.post('/action', authentication, async (req, res) => {
                                     description: `"${thisMonster.name}"와(과)의 싸움에서 패배했다. 다시 1학년으로 돌아간다.`,
                                 };
                                 break;
-                            } else player.HP -= monsterAttack;
-                        }
+                            } else {
+                                player.HP -= monsterAttack;
+                            }
+                        } else battleContent.push(`"${thisMonster.name}"은 공격에 실패했다.`);
                     }
                 }
             } else if (_event.type === 'item') {
@@ -250,33 +248,27 @@ app.post('/action', authentication, async (req, res) => {
                     event.description = `"${thisItem.material} ${thisItem.name}"을(를) 획득하였다.`;
                     player.incrementSTR(thisItem.buf);
                     player.getItem(thisItem);
-                    console.log(`${player.str}, ${player.def}, ${player.maxHP}`);
                 } else if (thisItem.type === '방어') {
                     event.description = `"${thisItem.material} ${thisItem.name}"을(를) 획득하였다.`;
                     player.incrementDEF(thisItem.buf);
                     player.getItem(thisItem);
-                    console.log(`${player.str}, ${player.def}, ${player.maxHP}`);
                 } else if (thisItem.type === '회복') {
                     event.description = `"${thisItem.material} ${thisItem.name}"을(를) 획득해 체력을 회복했다.`;
                     player.incrementHP(thisItem.buf);
-                    console.log(`${player.str}, ${player.def}, ${player.maxHP}`);
                 } else if (thisItem.type === '악화') {
                     event.description = `"${thisItem.material} ${thisItem.name}" 때문에 체력이 떨어졌다.`;
                     player.decrementHP(thisItem.buf);
-                    console.log(`${player.str}, ${player.def}, ${player.maxHP}`);
-                    // 죽을수도 있으니까 코드 추가해야함.
+                    if (player.HP === 0) dead = true;
                 } else if (thisItem.type === '최대체력증가') {
                     event.description = `"${thisItem.material} ${thisItem.name}"을(를) 획득해 최대체력이 증가했다.`;
                     player.incrementmaxHP(thisItem.buf);
                     player.incrementHP(thisItem.buf);
-                    console.log(`${player.str}, ${player.def}, ${player.maxHP}`);
                 } else if (thisItem.type === '교육') {
                     event.description = `"${thisItem.material} ${thisItem.name}"을(를) 통해 다양한 능력치가 상승하였다.`;
                     player.incrementSTR(thisItem.buf);
                     player.incrementDEF(thisItem.buf);
                     player.incrementmaxHP(thisItem.buf);
                     player.incrementHP(thisItem.buf);
-                    console.log(`${player.str}, ${player.def}, ${player.maxHP}`);
                 }
             } else if (_event.type === 'gambling') {
                 event = {
@@ -313,7 +305,7 @@ app.post('/action', authentication, async (req, res) => {
     // });
 
     return res.send({
-        player, field, event, actions, battleResult, invenItem, itemList,
+        player, field, event, actions, battleResult, battleContent, invenItem, itemList, dead,
     });
 });
 
