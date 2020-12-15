@@ -93,12 +93,12 @@ app.post('/action', authentication, async (req, res) => {
     player.showInventory().forEach((elem) => {
         invenItem.push(elem.name);
     });
-    const itemString = invenItem.join(',');
+    const itemString = invenItem.join(', ');
     itemList = {
         description: itemString,
     };
     //console.log(invenItem, itemList);
-    console.log(itemList.description);
+    //console.log(itemList.description);
     if (action === 'query2') {
         field = mapManager.getField(req.player.x, req.player.y);
 
