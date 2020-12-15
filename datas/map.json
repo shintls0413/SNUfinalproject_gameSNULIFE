@@ -499,11 +499,7 @@
         {
           "type": "battle",
           "monster": 104,
-          "percent": 65
-        },
-        {
-          "type": "nothing",
-          "percent": 35
+          "percent": 100
         }
       ]
     ],
