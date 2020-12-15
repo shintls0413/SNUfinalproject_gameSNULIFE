@@ -59,7 +59,7 @@ app.post('/signup', async (req, res) => {
         y: -1,
         //exp 기본값 추가
         exp: 0,
-        level: 0,
+        level: 1,
     });
 
     const key = crypto.randomBytes(24).toString('hex');
@@ -124,7 +124,7 @@ app.post('/action', authentication, async (req, res) => {
         player.y = 0;
         //player 경험치 초기화
         player.exp = 0;
-        
+        player.level = 1;
         player.lostItem();
 
         await player.save();
@@ -197,31 +197,39 @@ app.post('/action', authentication, async (req, res) => {
                         const playerAttack = Math.round(playerStr * (Math.random() + 0.5));
                         const monsterAttack = Math.round(
                             monsterStr * (Math.random() + 0.5),
-                        );
+                        )
+                        const battleExp = player.exp + thisMonster.exp
+                        ;
 
-                        if (playerAttack > 0) {
+                        if (playerAttack > 0 && battleExp < 20) {
                             if (thisMonster.hp - playerAttack <= 0) {
-                                thisMonster.hp = 0;
-                                battleResult = {
-                                    win: true,
-                                    description: `"${thisMonster.name}"와(과)의 싸움에서 승리했다.`,
-                                };
+                                    thisMonster.hp = 0;
+                                    battleResult = {
+                                        win: true,
+                                        description: `"${thisMonster.name}"와(과)의 싸움에서 승리했다. 경험치 "${thisMonster.exp}"을 획득했다.`,
+                                    };
+      //경험치 획득
+                                player.exp = battleExp                    
+                                break;
+                                } else {
+                                     thisMonster.hp -= playerAttack;
+                                }
+                        }
+                        if (playerAttack > 0 && battleExp >= 20) {
+                              if (thisMonster.hp - playerAttack <= 0) {
+                                    thisMonster.hp = 0;
+                                    battleResult = {
+                                        win: true,
+                                        description: `"${thisMonster.name}"와(과)의 싸움에서 승리했다. Level-UP! 스텟이 상승했다!`,
+                                   };
                                 //경험치 획득
-                                //player.exp += thisMonster.exp;
-/*경험치 20도달시에 levelup
-                                if (player.exp = 20) {
-                                    player.level += 1;
-                                    player.exp = 0;
-                                        levelUpResult = {
-                                            levelUp: true,
-                                            title: 'LEVEL UP!!!',
-                                            description: '능력치가 상승했다.'
-                                    }} else {
-                                        levelUpResult = {
-                                            levelUp: false,
-                                            description: `경험치 ${thisMonster.exp}를 획득했다.`
-                                        }
-                                    }  */                      
+                                player.exp = 0
+                                player.level += 1
+                                player.str += 3
+                                player.def += 3
+                                player.maxHP += 5
+                                player.HP = player.maxHP
+                                console.log(player.level);                   
                                 break;
                             } else {
                                 thisMonster.hp -= playerAttack;

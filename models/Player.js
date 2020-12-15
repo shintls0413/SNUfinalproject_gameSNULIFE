@@ -7,7 +7,7 @@ const schema = new Schema({
   Inventory: Array,
   
   exp: { type: Number, default: 0 },
-  level: { type: Number, default: 0 },
+  level: { type: Number, default: 1 },
   maxHP: { type: Number, default: 10 },
   HP: { type: Number, default: 10 },
   str: { type: Number, default: 5 },
@@ -38,7 +38,7 @@ schema.methods.incrementmaxHP = function (val) {
   this.maxHP += val;
 };
 
-schema.methods.incrementExp = function (val) {
+schema.methods.incrementEXP = function (val) {
   this.exp += val;
 };
 
