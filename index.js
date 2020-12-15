@@ -54,10 +54,10 @@ app.post('/signup', async (req, res) => {
         name,
         maxHP: Math.round(10 * (Math.random()) + 5),
         HP: Math.round(10 * (Math.random()) + 5),
-        str: Math.round(4 * (Math.random()) + 3),
-        def: Math.round(4 * (Math.random()) + 3),
+        str: Math.round(4 * (Math.random()) + 93),
+        def: Math.round(4 * (Math.random()) + 93),
         x: 0,
-        y: -1,
+        y: 8,
         // exp 기본값 추가
         exp: 0,
         level: 1,
@@ -99,33 +99,11 @@ app.post('/action', authentication, async (req, res) => {
 
         return res.send({ player, field });
     }
-    // invenItem = [];
-    // player.showInventory().forEach((elem) => {
-    //     invenItem.push(elem.material+' '+elem.name);
-    // });
-    // const itemString = invenItem.join(', ');
-    // itemList = {
-    //     description: itemString,
-    // };
-    //console.log(invenItem, itemList);
-    //console.log(itemList.description);
     if (action === 'query2') {
         field = mapManager.getField(req.player.x, req.player.y);
 
         return res.send({ player, field, itemList });
     }
-
-    // if (action === 'checkInventory') {
-    //     invenItem = [];
-    //     player.showInventory().forEach((elem) => {
-    //         invenItem.push(elem.name);
-    //     })
-    //     const itemString = invenItem.join(',');
-    //     itemList = {
-    //         description : itemString
-    //     }
-    //     console.log(invenItem, itemList);
-    // } // 보류
 
     if (action === 'revive') {
         field = mapManager.getField(0, 0);
@@ -145,6 +123,7 @@ app.post('/action', authentication, async (req, res) => {
         }else{
             player.incrementSTR((-1)*lostItemId[0].buf);
         }
+
         invenItem = [];
         itemList = [];
         player.showInventory().forEach((elem) => {
@@ -314,10 +293,10 @@ app.post('/action', authentication, async (req, res) => {
                     player.incrementmaxHP(thisItem.buf);
                     player.incrementHP(thisItem.buf);
                 }
-            } else if (_event.type === 'gambling') {
+            } else if (_event.type === 'ending') {
                 event = {
-                    title: '!!! GAMBLING !!!',
-                    description: '길을 가다가 수상한 할아버지가 도박을 하자고 말했다',
+                    title: 'The End....',
+                    description: '-후속작 양진환 선생님의 반란-을 기대해주세요',
                 };
             } else if (_event.type === 'nothing') {
                 event = {
