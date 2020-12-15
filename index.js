@@ -226,7 +226,7 @@ app.post('/action', authentication, async (req, res) => {
                                         win: true,
                                         description: `"${thisMonster.name}"와(과)의 싸움에서 승리했다. Level-UP! 스텟이 상승했다!`,
                                     };
-                                    // 경험치 획득
+                                    // 레벨업 스텟획득
                                     player.exp = 0;
                                     player.level += 1;
                                     player.str += 3;
