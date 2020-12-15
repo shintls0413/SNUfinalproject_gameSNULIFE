@@ -57,7 +57,7 @@ app.post('/signup', async (req, res) => {
         def: Math.round(4 * (Math.random()) + 3),
         x: 0,
         y: -1,
-        //exp 기본값 추가
+        // exp 기본값 추가
         exp: 0,
         level: 1,
     });
@@ -70,8 +70,6 @@ app.post('/signup', async (req, res) => {
     return res.send({ key });
 });
 
-
-
 app.post('/action', authentication, async (req, res) => {
     const { action } = req.body;
     const { player } = req;
@@ -81,7 +79,7 @@ app.post('/action', authentication, async (req, res) => {
     let itemList = null;
     const actions = [];
     let battleResult = null;
-//    let levelUpResult = null;
+    //    let levelUpResult = null;
     if (action === 'query') {
         field = mapManager.getField(req.player.x, req.player.y);
 
@@ -90,20 +88,19 @@ app.post('/action', authentication, async (req, res) => {
     invenItem = [];
     player.showInventory().forEach((elem) => {
         invenItem.push(elem.name);
-    })
+    });
     const itemString = invenItem.join(',');
     itemList = {
-        description : itemString
-    }
+        description: itemString,
+    };
     console.log(invenItem, itemList);
     console.log(itemList.description);
-    if(action === 'query2'){
+    if (action === 'query2') {
         field = mapManager.getField(req.player.x, req.player.y);
 
         return res.send({ player, field, itemList });
     }
 
-    
     // if (action === 'checkInventory') {
     //     invenItem = [];
     //     player.showInventory().forEach((elem) => {
@@ -114,32 +111,31 @@ app.post('/action', authentication, async (req, res) => {
     //         description : itemString
     //     }
     //     console.log(invenItem, itemList);
-    // } // 보류 
-
+    // } // 보류
 
     if (action === 'revive') {
         field = mapManager.getField(0, 0);
         player.HP = player.maxHP;
         player.x = 0;
         player.y = 0;
-        //player 경험치 초기화
+        // player 경험치 초기화
         player.exp = 0;
         player.level = 1;
         player.lostItem();
 
         await player.save();
     }
-    /*levelup action
-    if (action === 'levelUp') {
-        player.level += 1
-        player.str += 3
-        player.def += 3
-        player.maxHP += 3
-        player.HP = player.maxHP;
-        //player 경험치 초기화
-        player.exp = 0;
-        await player.save();
-    }*/
+    /* levelup action
+      if (action === 'levelUp') {
+          player.level += 1
+          player.str += 3
+          player.def += 3
+          player.maxHP += 3
+          player.HP = player.maxHP;
+          //player 경험치 초기화
+          player.exp = 0;
+          await player.save();
+      } */
     if (action === 'move') {
         const direction = parseInt(req.body.direction, 0); // 0 북. 1 동 . 2 남. 3 서.
         let { x } = req.player;
@@ -152,10 +148,9 @@ app.post('/action', authentication, async (req, res) => {
             y += 1;
         } else if (direction === 3) {
             x -= 1;
-        } else if (direction === 20){
-            
-        }
-        else {
+        } else if (direction === 20) {
+
+        } else {
             res.sendStatus(400);
         }
         field = mapManager.getField(x, y);
@@ -197,39 +192,37 @@ app.post('/action', authentication, async (req, res) => {
                         const playerAttack = Math.round(playerStr * (Math.random() + 0.5));
                         const monsterAttack = Math.round(
                             monsterStr * (Math.random() + 0.5),
-                        )
-                        const battleExp = player.exp + thisMonster.exp
-                        ;
-
+                        );
+                        const battleExp = player.exp + thisMonster.exp;
                         if (playerAttack > 0 && battleExp < 20) {
                             if (thisMonster.hp - playerAttack <= 0) {
-                                    thisMonster.hp = 0;
-                                    battleResult = {
-                                        win: true,
-                                        description: `"${thisMonster.name}"와(과)의 싸움에서 승리했다. 경험치 "${thisMonster.exp}"을 획득했다.`,
-                                    };
-      //경험치 획득
-                                player.exp = battleExp                    
+                                thisMonster.hp = 0;
+                                battleResult = {
+                                    win: true,
+                                    description: `"${thisMonster.name}"와(과)의 싸움에서 승리했다. 경험치 "${thisMonster.exp}"을 획득했다.`,
+                                };
+                                // 경험치 획득
+                                player.exp = battleExp;
                                 break;
-                                } else {
-                                     thisMonster.hp -= playerAttack;
-                                }
+                            } else {
+                                thisMonster.hp -= playerAttack;
+                            }
                         }
                         if (playerAttack > 0 && battleExp >= 20) {
-                              if (thisMonster.hp - playerAttack <= 0) {
-                                    thisMonster.hp = 0;
-                                    battleResult = {
-                                        win: true,
-                                        description: `"${thisMonster.name}"와(과)의 싸움에서 승리했다. Level-UP! 스텟이 상승했다!`,
-                                   };
-                                //경험치 획득
-                                player.exp = 0
-                                player.level += 1
-                                player.str += 3
-                                player.def += 3
-                                player.maxHP += 5
-                                player.HP = player.maxHP
-                                console.log(player.level);                   
+                            if (thisMonster.hp - playerAttack <= 0) {
+                                thisMonster.hp = 0;
+                                battleResult = {
+                                    win: true,
+                                    description: `"${thisMonster.name}"와(과)의 싸움에서 승리했다. Level-UP! 스텟이 상승했다!`,
+                                };
+                                // 경험치 획득
+                                player.exp = 0;
+                                player.level += 1;
+                                player.str += 3;
+                                player.def += 3;
+                                player.maxHP += 5;
+                                player.HP = player.maxHP;
+                                console.log(player.level);
                                 break;
                             } else {
                                 thisMonster.hp -= playerAttack;
@@ -295,9 +288,9 @@ app.post('/action', authentication, async (req, res) => {
                     title: '',
                     description: '아무일도 일어나지 않았다.',
                 };
-            };
+            }
         }
-        
+
         await player.save();
     }
     // else if (action === 'restat') {
@@ -320,7 +313,7 @@ app.post('/action', authentication, async (req, res) => {
     // });
 
     return res.send({
-        player, field, event, actions, battleResult, invenItem, itemList
+        player, field, event, actions, battleResult, invenItem, itemList,
     });
 });
 
