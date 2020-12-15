@@ -15,6 +15,7 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.set('views', `${__dirname}/views`);
 app.set('view engine', 'ejs');
+app.use(express.static('public'));
 app.engine('html', require('ejs').renderFile);
 
 mongoose.connect(
@@ -61,7 +62,7 @@ app.post('/signup', async (req, res) => {
         exp: 0,
         level: 1,
     });
-
+    player.HP = player.maxHP;
     const key = crypto.randomBytes(24).toString('hex');
     player.key = key;
 
@@ -112,6 +113,7 @@ app.post('/action', authentication, async (req, res) => {
     //     }
     //     console.log(invenItem, itemList);
     // } // 보류
+
 
     if (action === 'revive') {
         field = mapManager.getField(0, 0);
@@ -292,15 +294,20 @@ app.post('/action', authentication, async (req, res) => {
         }
 
         await player.save();
+    } else if (action === 'restat') {
+        field = mapManager.getField(0, -1);
+        player.maxHP = Math.round(10 * (Math.random()) + 5);
+        player.str = Math.round(4 * (Math.random()) + 3);
+        player.def = Math.round(4 * (Math.random()) + 3);
+        player.HP = player.maxHP;
+        event = {
+            title: '',
+            description: '스탯이 재분배되었습니다.',
+        }
+        
+        await player.save();
     }
-    // else if (action === 'restat') {
-    //     player.maxHP = Math.round(10 * (Math.random()) + 5);
-    //     player.str = Math.round(4 * (Math.random()) + 3);
-    //     player.def = Math.round(4 * (Math.random()) + 3);
-    //     player.HP = player.maxHP;
 
-    //     await player.save();
-    // }
 
     // field.canGo.forEach((direction, i) => {
     //     if (direction === 1) {
