@@ -56,6 +56,7 @@ app.post('/signup', async (req, res) => {
         HP: Math.round(10 * (Math.random()) + 5),
         str: Math.round(4 * (Math.random()) + 3),
         def: Math.round(4 * (Math.random()) + 3),
+        resetCount:0,
         x: 0,
         y: -1,
         // exp 기본값 추가
@@ -97,12 +98,7 @@ app.post('/action', authentication, async (req, res) => {
     if (action === 'query') {
         field = mapManager.getField(req.player.x, req.player.y);
 
-        return res.send({ player, field });
-    }
-    if (action === 'query2') {
-        field = mapManager.getField(req.player.x, req.player.y);
-
-        return res.send({ player, field, itemList });
+        return res.send({ player, field});
     }
 
     if (action === 'revive') {
@@ -140,9 +136,10 @@ app.post('/action', authentication, async (req, res) => {
         player.str = Math.round(4 * (Math.random()) + 3);
         player.def = Math.round(4 * (Math.random()) + 3);
         player.HP = player.maxHP;
+        const resetCount = player.incrementCOUNT();
         event = {
             title: '',
-            description: '스탯이 재분배되었습니다.',
+            description: `스탯이 재분배되었습니다.( 재분배 가능횟수 : ${resetCount}/5 ) `,
         }
 
         await player.save();

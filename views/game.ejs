@@ -75,12 +75,20 @@
                 $('#position').text(`(${field.x},${field.y})`);
                 const x = field.x;
                 const y = field.y;
-
-                $('#inven_item').text("Inventory : " + invenItem);
+                
+                if(invenItem === undefined){
+                    $('#inven_item').text("Inventory : "+"현재 획득한 아이템이 없다." );
+                }else{
+                    $('#inven_item').text("Inventory : " + invenItem);
+                }
+                
 
                 if (x === 0 && y === -1) {
                     $('button[value="-1"]').unbind('click');
                     $('button[value="-1"]').show();
+                    if(player.resetCount>4){
+                        $('button[value="-1"]').hide();
+                    }
                     $('button[value="-1"]').bind('click', function () {
                         sendAction('restat');
                     })

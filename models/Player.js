@@ -5,6 +5,7 @@ const schema = new Schema({
   name: String,
   key: String,
   Inventory: Array,
+  resetCount : Number,
   
   exp: { type: Number, default: 0 },
   level: { type: Number, default: 1 },
@@ -24,13 +25,10 @@ schema.methods.incrementDEF = function (val) {
   this.def += val;
 };
 
-// schema.methods.decrementSTR = function (val) {
-//   this.str -= val;
-// };
-
-// schema.methods.decrementDEF = function (val) {
-//   this.def -= val;
-// };
+schema.methods.incrementCOUNT = function () {
+  this.resetCount += 1;
+  return this.resetCount;
+};
 
 
 
