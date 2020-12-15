@@ -86,7 +86,7 @@ app.post('/action', authentication, async (req, res) => {
     invenItem = [];
     itemList = [];
     player.showInventory().forEach((elem) => {
-        invenItem.push(elem.material+' '+elem.name);
+        invenItem.push(elem.material + ' ' + elem.name);
     });
     const itemString = invenItem.join(', ');
     itemList = {
@@ -138,17 +138,17 @@ app.post('/action', authentication, async (req, res) => {
         const lostItemId = player.lostItem();
         console.log(lostItemId);
         console.log(typeof lostItemId[0].buf);
-        console.log(typeof (-1)*lostItemId[0].buf);
+        console.log(typeof (-1) * lostItemId[0].buf);
 
-        if(lostItemId.type === "방어"){
-            player.incrementDEF((-1)*lostItemId[0].buf);
-        }else{
-            player.incrementSTR((-1)*lostItemId[0].buf);
+        if (lostItemId.type === "방어") {
+            player.incrementDEF((-1) * lostItemId[0].buf);
+        } else {
+            player.incrementSTR((-1) * lostItemId[0].buf);
         }
         invenItem = [];
         itemList = [];
         player.showInventory().forEach((elem) => {
-        invenItem.push(elem.material+' '+elem.name);
+            invenItem.push(elem.material + ' ' + elem.name);
         });
         const itemString = invenItem.join(', ');
         itemList = {
@@ -168,9 +168,9 @@ app.post('/action', authentication, async (req, res) => {
 
         await player.save();
     }
-    
 
-    
+
+
     /* levelup action
             if (action === 'levelUp') {
                 player.level += 1
@@ -266,7 +266,7 @@ app.post('/action', authentication, async (req, res) => {
                                 }
                                 break;
                             } else thisMonster.hp -= playerAttack;
-                        } else battleContent.push(`"${player.name}"은 공격에 실패했다.`);
+                        } else battleContent.push(`"${player.name}"은(는) 공격에 실패했다.`);
 
                         if (monsterAttack > 0) {
                             battleContent.push(`"${thisMonster.name}"는 ${player.name}에게 "${monsterAttack}"의 데미지를 입혔다.`);
@@ -280,8 +280,13 @@ app.post('/action', authentication, async (req, res) => {
                             } else {
                                 player.HP -= monsterAttack;
                             }
-                        } else battleContent.push(`"${thisMonster.name}"은 공격에 실패했다.`);
+                        } else battleContent.push(`"${thisMonster.name}"은(는) 공격에 실패했다.`);
                     }
+                } else {
+                    battleResult = {
+                        win: true,
+                        description: `"${thisMonster.name}"이(가) 도망쳤다`,
+                    };
                 }
             } else if (_event.type === 'item') {
                 const thisItem = itemManager.getItem(_event.item);
