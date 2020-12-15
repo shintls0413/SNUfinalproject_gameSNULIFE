@@ -53,7 +53,7 @@ app.post('/signup', async (req, res) => {
     const player = new Player({
         name,
         maxHP: Math.round(10 * (Math.random()) + 5),
-        HP: 0,
+        HP: Math.round(10 * (Math.random()) + 5),
         str: Math.round(4 * (Math.random()) + 3),
         def: Math.round(4 * (Math.random()) + 3),
         x: 0,
