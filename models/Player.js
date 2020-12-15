@@ -24,6 +24,16 @@ schema.methods.incrementDEF = function (val) {
   this.def += val;
 };
 
+// schema.methods.decrementSTR = function (val) {
+//   this.str -= val;
+// };
+
+// schema.methods.decrementDEF = function (val) {
+//   this.def -= val;
+// };
+
+
+
 schema.methods.incrementHP = function (val) {
   const hp = this.HP + val;
   this.HP = Math.min(Math.max(0, hp), this.maxHP);
@@ -54,8 +64,8 @@ schema.methods.getItem = function (obj) {
 
 schema.methods.lostItem = function (){
   if(this.Inventory.length!=0){
-    const lostId = Math.floor(Math.random()*(this.Inventory.lenght));
-    this.Inventory = this.Inventory.splice(lostId,1);
+    const lostId = Math.floor(Math.random()*(this.Inventory.length));
+    return this.Inventory.splice(lostId,1);
   }
 }
 

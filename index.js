@@ -83,20 +83,30 @@ app.post('/action', authentication, async (req, res) => {
     let battleResult = null;
     const battleContent = [];
     let dead = false;
+    invenItem = [];
+    itemList = [];
+    player.showInventory().forEach((elem) => {
+        invenItem.push(elem.material+' '+elem.name);
+    });
+    const itemString = invenItem.join(', ');
+    itemList = {
+        description: itemString,
+    };
+
     //    let levelUpResult = null;
     if (action === 'query') {
         field = mapManager.getField(req.player.x, req.player.y);
 
         return res.send({ player, field });
     }
-    invenItem = [];
-    player.showInventory().forEach((elem) => {
-        invenItem.push(elem.name);
-    });
-    const itemString = invenItem.join(', ');
-    itemList = {
-        description: itemString,
-    };
+    // invenItem = [];
+    // player.showInventory().forEach((elem) => {
+    //     invenItem.push(elem.material+' '+elem.name);
+    // });
+    // const itemString = invenItem.join(', ');
+    // itemList = {
+    //     description: itemString,
+    // };
     //console.log(invenItem, itemList);
     //console.log(itemList.description);
     if (action === 'query2') {
@@ -125,8 +135,25 @@ app.post('/action', authentication, async (req, res) => {
         // player 경험치 초기화
         player.exp = 0;
         player.level = 1;
-        player.lostItem();
+        const lostItemId = player.lostItem();
+        console.log(lostItemId);
+        console.log(typeof lostItemId[0].buf);
+        console.log(typeof (-1)*lostItemId[0].buf);
 
+        if(lostItemId.type === "방어"){
+            player.incrementDEF((-1)*lostItemId[0].buf);
+        }else{
+            player.incrementSTR((-1)*lostItemId[0].buf);
+        }
+        invenItem = [];
+        itemList = [];
+        player.showInventory().forEach((elem) => {
+        invenItem.push(elem.material+' '+elem.name);
+        });
+        const itemString = invenItem.join(', ');
+        itemList = {
+            description: itemString,
+        };
         await player.save();
     } else if (action === 'restat') {
         field = mapManager.getField(0, -1);
@@ -141,6 +168,9 @@ app.post('/action', authentication, async (req, res) => {
 
         await player.save();
     }
+    
+
+    
     /* levelup action
             if (action === 'levelUp') {
                 player.level += 1
