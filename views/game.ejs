@@ -9,15 +9,8 @@
     <div id="position"></div>
 
     <div id="status">
-        HP: <span id="HP"> 10 / 10</span>
-        STR: <span id="STR"> 5 / 5</span>
-        DEF: <span id="DEF"> 5 / 5</span>
+        HP: <span id="HP"> 5 / 5</span>
         EXP: <span id="EXP"> 0</span>
-    </div>
-    <div id="Check Inventory">
-        <button value="20">인벤토리 보기</button>
-        <div id="inven_item"></div>
-        <button value="21">인벤토리 끄기</button>
     </div>
     <div id="game"></div>
     <br />
@@ -26,10 +19,11 @@
     <br />
     <div id="battle_result"></div>
     <br />
+    <div id="Check Inventory">
+        <!-- <button value="10">나의 스탯</button>
+        <button value="20">나의 인벤토리</button> -->
+    </div>
     <div id="control">
-        <!-- <form>
-            <input type="button" value="스탯 재분배"></input>
-        </form> -->
         <button value="1">동</button>
         <button value="3">서</button>
         <button value="2">남</button>
@@ -49,46 +43,12 @@
                 method: "POST",
                 data: `action=${action}&direction=${params.direction}`,
             }).done((req) => {
-                const { player, field, event, battleResult, levelUpResult, invenItem, itemList } = req;
+                const { player, field, event, battleResult, levelUpResult, checkInventory} = req;
+
                 $('#game').text(field.description);
                 $('#position').text(`(${field.x},${field.y})`);
                 const x = field.x;
                 const y = field.y;
-                
-                // const statBtn = document.querySelector('input');
-                // statBtn.addEventListener('click', sendAction('restat'));
-
-                
-
-                $('button[value="21"]').hide();
-
-              
-                const dom2 = $(`button[value="20"]`);
-                dom2.unbind('click');
-                $('button[value="20"]').bind('click', function () {
-                    $('button[value="1"]').hide();
-                    $('button[value="1"]').unbind('click');
-                    $('button[value="2"]').hide();
-                    $('button[value="2"]').unbind('click');
-                    $('button[value="3"]').hide();
-                    $('button[value="3"]').unbind('click');
-                    $('button[value="0"]').hide();
-                    $('button[value="0"]').unbind('click');
-                    $('button[value="5"]').hide();
-                    $('button[value="5"]').unbind('click');
-                    $('button[value="20"]').hide();
-                    $('button[value="20"]').unbind('click');
-                    $('button[value="21"]').show();
-                    $('#inven_item').text(itemList.description);
-                    $('button[value="21"]').bind('click', function () {
-                        $('#inven_item').text('');
-                        sendAction('query2');
-                        $('button[value="20"]').show();
-                    });
-                });
-
-
-                
 
                 if (battleResult) {
                     alert('! ! ! BATTLE ! ! !');
@@ -114,7 +74,7 @@
                                 sendAction('revive');
                             });
                         } 
-/*                       else{
+ /*                       else{
                             if (!levelUpResult.levelUp) {
                             $('#levelUp_result').text(levelUpResult.description);
                             $('button[value="6"]').show();
@@ -162,8 +122,6 @@
                     $('button[value="6"]').hide();
                 }
 
-                
-
                 if (event) {
                     $('#event_title').text(event.title);
                     $('#event_result').text(event.description);
@@ -174,8 +132,6 @@
 
                 $('#HP').text(`${player.HP} / ${player.maxHP}`)
                 $('#EXP').text(`${player.exp}`)
-                $('#STR').text(`${player.str}`)
-                $('#DEF').text(`${player.def}`)
             });
 
         }
@@ -185,6 +141,7 @@
         }
 
         sendAction("query");
+
 
 
     </script>

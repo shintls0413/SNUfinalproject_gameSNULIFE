@@ -51,12 +51,12 @@ app.post('/signup', async (req, res) => {
 
     const player = new Player({
         name,
-        maxHP: Math.round(10 * (Math.random()) + 5),
-        HP: Math.round(10 * (Math.random()) + 5),
-        str: Math.round(4 * (Math.random()) + 3),
-        def: Math.round(4 * (Math.random()) + 3),
+        maxHP: 10,
+        HP: 10,
+        str: 5,
+        def: 5,
         x: 0,
-        y: -1,
+        y: 0,
         //exp 기본값 추가
         exp: 0,
         level: 0,
@@ -70,15 +70,11 @@ app.post('/signup', async (req, res) => {
     return res.send({ key });
 });
 
-
-
 app.post('/action', authentication, async (req, res) => {
     const { action } = req.body;
     const { player } = req;
     let field = null;
     let event = null;
-    let invenItem = null;
-    let itemList = null;
     const actions = [];
     let battleResult = null;
 //    let levelUpResult = null;
@@ -87,36 +83,6 @@ app.post('/action', authentication, async (req, res) => {
 
         return res.send({ player, field });
     }
-    invenItem = [];
-    player.showInventory().forEach((elem) => {
-        invenItem.push(elem.name);
-    })
-    const itemString = invenItem.join(',');
-    itemList = {
-        description : itemString
-    }
-    console.log(invenItem, itemList);
-    console.log(itemList.description);
-    if(action === 'query2'){
-        field = mapManager.getField(req.player.x, req.player.y);
-
-        return res.send({ player, field, itemList });
-    }
-
-    
-    // if (action === 'checkInventory') {
-    //     invenItem = [];
-    //     player.showInventory().forEach((elem) => {
-    //         invenItem.push(elem.name);
-    //     })
-    //     const itemString = invenItem.join(',');
-    //     itemList = {
-    //         description : itemString
-    //     }
-    //     console.log(invenItem, itemList);
-    // } // 보류 
-
-
     if (action === 'revive') {
         field = mapManager.getField(0, 0);
         player.HP = player.maxHP;
@@ -125,8 +91,6 @@ app.post('/action', authentication, async (req, res) => {
         //player 경험치 초기화
         player.exp = 0;
         
-        player.lostItem();
-
         await player.save();
     }
     /*levelup action
@@ -152,10 +116,7 @@ app.post('/action', authentication, async (req, res) => {
             y += 1;
         } else if (direction === 3) {
             x -= 1;
-        } else if (direction === 20){
-            
-        }
-        else {
+        } else {
             res.sendStatus(400);
         }
         field = mapManager.getField(x, y);
@@ -289,30 +250,30 @@ app.post('/action', authentication, async (req, res) => {
                 };
             };
         }
-        
+        if (action === 'checkInventory') {
+            const invenItem = [];
+            playerItem.showInventory.forEach((elem) => {
+                invenItem.push(elem.name);
+            })
+
+            return res.send({ player, field, invenItem });
+        }
+
         await player.save();
     }
-    // else if (action === 'restat') {
-    //     player.maxHP = Math.round(10 * (Math.random()) + 5);
-    //     player.str = Math.round(4 * (Math.random()) + 3);
-    //     player.def = Math.round(4 * (Math.random()) + 3);
-    //     player.HP = player.maxHP;
 
-    //     await player.save();
-    // }
-
-    // field.canGo.forEach((direction, i) => {
-    //     if (direction === 1) {
-    //         actions.push({
-    //             url: '/action',
-    //             text: i,
-    //             params: { direction: i, action: 'move' },
-    //         });
-    //     }
-    // });
+    field.canGo.forEach((direction, i) => {
+        if (direction === 1) {
+            actions.push({
+                url: '/action',
+                text: i,
+                params: { direction: i, action: 'move' },
+            });
+        }
+    });
 
     return res.send({
-        player, field, event, actions, battleResult, invenItem, itemList
+        player, field, event, actions, battleResult,
     });
 });
 
