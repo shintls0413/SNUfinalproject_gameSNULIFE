@@ -54,10 +54,10 @@ app.post('/signup', async (req, res) => {
         name,
         maxHP: Math.round(10 * (Math.random()) + 5),
         HP: Math.round(10 * (Math.random()) + 5),
-        str: Math.round(4 * (Math.random()) + 93),
-        def: Math.round(4 * (Math.random()) + 93),
+        str: Math.round(4 * (Math.random()) + 3),
+        def: Math.round(4 * (Math.random()) + 3),
         x: 0,
-        y: 8,
+        y: -1,
         // exp 기본값 추가
         exp: 0,
         level: 1,
@@ -173,8 +173,6 @@ app.post('/action', authentication, async (req, res) => {
             y += 1;
         } else if (direction === 3) {
             x -= 1;
-        } else if (direction === 20) {
-
         } else {
             res.sendStatus(400);
         }
