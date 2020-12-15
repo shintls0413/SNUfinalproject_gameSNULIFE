@@ -5,6 +5,7 @@ const schema = new Schema({
   name: String,
   key: String,
   Inventory: Array,
+  resetCount : Number,
   
   exp: { type: Number, default: 0 },
   level: { type: Number, default: 1 },
@@ -23,6 +24,13 @@ schema.methods.incrementSTR = function (val) {
 schema.methods.incrementDEF = function (val) {
   this.def += val;
 };
+
+schema.methods.incrementCOUNT = function () {
+  this.resetCount += 1;
+  return this.resetCount;
+};
+
+
 
 schema.methods.incrementHP = function (val) {
   const hp = this.HP + val;
@@ -54,8 +62,8 @@ schema.methods.getItem = function (obj) {
 
 schema.methods.lostItem = function (){
   if(this.Inventory.length!=0){
-    const lostId = Math.floor(Math.random()*(this.Inventory.lenght));
-    this.Inventory = this.Inventory.splice(lostId,1);
+    const lostId = Math.floor(Math.random()*(this.Inventory.length));
+    return this.Inventory.splice(lostId,1);
   }
 }
 

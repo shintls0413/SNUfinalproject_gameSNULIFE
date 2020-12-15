@@ -56,6 +56,7 @@ app.post('/signup', async (req, res) => {
         HP: Math.round(10 * (Math.random()) + 5),
         str: Math.round(4 * (Math.random()) + 3),
         def: Math.round(4 * (Math.random()) + 3),
+        resetCount:0,
         x: 0,
         y: -1,
         // exp 기본값 추가
@@ -83,39 +84,22 @@ app.post('/action', authentication, async (req, res) => {
     let battleResult = null;
     const battleContent = [];
     let dead = false;
-    //    let levelUpResult = null;
-    if (action === 'query') {
-        field = mapManager.getField(req.player.x, req.player.y);
-
-        return res.send({ player, field });
-    }
     invenItem = [];
+    itemList = [];
     player.showInventory().forEach((elem) => {
-        invenItem.push(elem.name);
+        invenItem.push(elem.material + ' ' + elem.name);
     });
     const itemString = invenItem.join(', ');
     itemList = {
         description: itemString,
     };
-    //console.log(invenItem, itemList);
-    //console.log(itemList.description);
-    if (action === 'query2') {
+
+    //    let levelUpResult = null;
+    if (action === 'query') {
         field = mapManager.getField(req.player.x, req.player.y);
 
-        return res.send({ player, field, itemList });
+        return res.send({ player, field});
     }
-
-    // if (action === 'checkInventory') {
-    //     invenItem = [];
-    //     player.showInventory().forEach((elem) => {
-    //         invenItem.push(elem.name);
-    //     })
-    //     const itemString = invenItem.join(',');
-    //     itemList = {
-    //         description : itemString
-    //     }
-    //     console.log(invenItem, itemList);
-    // } // 보류
 
     if (action === 'revive') {
         field = mapManager.getField(0, 0);
@@ -125,8 +109,26 @@ app.post('/action', authentication, async (req, res) => {
         // player 경험치 초기화
         player.exp = 0;
         player.level = 1;
-        player.lostItem();
+        const lostItemId = player.lostItem();
+        console.log(lostItemId);
+        console.log(typeof lostItemId[0].buf);
+        console.log(typeof (-1) * lostItemId[0].buf);
 
+        if (lostItemId.type === "방어") {
+            player.incrementDEF((-1) * lostItemId[0].buf);
+        } else {
+            player.incrementSTR((-1) * lostItemId[0].buf);
+        }
+
+        invenItem = [];
+        itemList = [];
+        player.showInventory().forEach((elem) => {
+            invenItem.push(elem.material + ' ' + elem.name);
+        });
+        const itemString = invenItem.join(', ');
+        itemList = {
+            description: itemString,
+        };
         await player.save();
     } else if (action === 'restat') {
         field = mapManager.getField(0, -1);
@@ -134,13 +136,17 @@ app.post('/action', authentication, async (req, res) => {
         player.str = Math.round(4 * (Math.random()) + 3);
         player.def = Math.round(4 * (Math.random()) + 3);
         player.HP = player.maxHP;
+        const resetCount = player.incrementCOUNT();
         event = {
             title: '',
-            description: '스탯이 재분배되었습니다.',
+            description: `스탯이 재분배되었습니다.( 재분배 가능횟수 : ${resetCount}/5 ) `,
         }
 
         await player.save();
     }
+
+
+
     /* levelup action
             if (action === 'levelUp') {
                 player.level += 1
@@ -164,8 +170,6 @@ app.post('/action', authentication, async (req, res) => {
             y += 1;
         } else if (direction === 3) {
             x -= 1;
-        } else if (direction === 20) {
-
         } else {
             res.sendStatus(400);
         }
@@ -236,7 +240,7 @@ app.post('/action', authentication, async (req, res) => {
                                 }
                                 break;
                             } else thisMonster.hp -= playerAttack;
-                        } else battleContent.push(`"${player.name}"은 공격에 실패했다.`);
+                        } else battleContent.push(`"${player.name}"은(는) 공격에 실패했다.`);
 
                         if (monsterAttack > 0) {
                             battleContent.push(`"${thisMonster.name}"는 ${player.name}에게 "${monsterAttack}"의 데미지를 입혔다.`);
@@ -250,8 +254,13 @@ app.post('/action', authentication, async (req, res) => {
                             } else {
                                 player.HP -= monsterAttack;
                             }
-                        } else battleContent.push(`"${thisMonster.name}"은 공격에 실패했다.`);
+                        } else battleContent.push(`"${thisMonster.name}"은(는) 공격에 실패했다.`);
                     }
+                } else {
+                    battleResult = {
+                        win: true,
+                        description: `"${thisMonster.name}"이(가) 도망쳤다`,
+                    };
                 }
             } else if (_event.type === 'item') {
                 const thisItem = itemManager.getItem(_event.item);
@@ -284,10 +293,10 @@ app.post('/action', authentication, async (req, res) => {
                     player.incrementmaxHP(thisItem.buf);
                     player.incrementHP(thisItem.buf);
                 }
-            } else if (_event.type === 'gambling') {
+            } else if (_event.type === 'ending') {
                 event = {
-                    title: '!!! GAMBLING !!!',
-                    description: '길을 가다가 수상한 할아버지가 도박을 하자고 말했다',
+                    title: 'The End....',
+                    description: '-후속작 양진환 선생님의 반란-을 기대해주세요',
                 };
             } else if (_event.type === 'nothing') {
                 event = {
