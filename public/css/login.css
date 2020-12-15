@@ -1,0 +1,14 @@
+#intro {
+    margin-bottom: 10px;
+    color: #179ce9;
+    font-weight: bold;
+}
+input[name="name"] {
+    height: 24.5px;
+}
+input[type="submit"] {
+    color: #1692da;
+    background: whitesmoke;
+    font-weight: bold;
+    height: 26px;
+}
