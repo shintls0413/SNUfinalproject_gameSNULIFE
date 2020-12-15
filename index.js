@@ -203,6 +203,8 @@ app.post('/action', authentication, async (req, res) => {
                     title: '! ! ! BATTLE ! ! !',
                     description: `"${thisMonster.name}"을(를) 마주쳐 싸움을 벌였다.`,
                 };
+                battleContent.push(`${thisMonster.name} : ${thisMonster.talk}`);
+                battleContent.push(`${player.name} : ${thisMonster.response}`);
 
                 const playerStr = player.str - thisMonster.def;
                 const monsterStr = thisMonster.str - player.def;
