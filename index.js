@@ -15,6 +15,7 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.set('views', `${__dirname}/views`);
 app.set('view engine', 'ejs');
+app.use(express.static('public'));
 app.engine('html', require('ejs').renderFile);
 
 mongoose.connect(
@@ -62,6 +63,7 @@ app.post('/signup', async (req, res) => {
         level: 1,
     });
 
+    player.HP = player.maxHP;
     const key = crypto.randomBytes(24).toString('hex');
     player.key = key;
 
@@ -124,6 +126,18 @@ app.post('/action', authentication, async (req, res) => {
         player.exp = 0;
         player.level = 1;
         player.lostItem();
+
+        await player.save();
+    } else if (action === 'restat') {
+        field = mapManager.getField(0, -1);
+        player.maxHP = Math.round(10 * (Math.random()) + 5);
+        player.str = Math.round(4 * (Math.random()) + 3);
+        player.def = Math.round(4 * (Math.random()) + 3);
+        player.HP = player.maxHP;
+        event = {
+            title: '',
+            description: '스탯이 재분배되었습니다.',
+        }
 
         await player.save();
     }
