@@ -148,9 +148,6 @@ app.post('/action', authentication, async (req, res) => {
         await player.save();
     }
 
-
-
-
     if (action === 'move') {
         const direction = parseInt(req.body.direction, 0); // 0 북. 1 동 . 2 남. 3 서.
         let { x } = req.player;
@@ -305,7 +302,7 @@ app.post('/action', authentication, async (req, res) => {
     }
 
     return res.send({
-        player, field, event, actions, battleResult, battleContent, invenItem, itemList, dead,
+        player, field, event, actions, battleResult, battleContent, invenItem, itemList, dead, lostItem,
     });
 });
 
