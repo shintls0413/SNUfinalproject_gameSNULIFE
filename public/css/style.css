@@ -4,16 +4,16 @@ body {
     background-color:white;
     font-family: Arial, Helvetica, sans-serif;
 }
-#my_position {
+#my_position, #my_inventory {
     color: #1692da;
     font-size: 16px;
     font-family: Arial, Helvetica, sans-serif;
     font-weight: bold;
-    margin-left: 10px;
+    margin: 0 20px;
 }
 #status {
     margin-top: 8px;
-    padding: 6px;
+    padding: 10px 20px 8px 20px;
     border: 3px solid white;
     font-size: 17px;
     font-family: Arial, Helvetica, sans-serif;
@@ -22,6 +22,11 @@ body {
     letter-spacing: 0.5px;
     word-spacing: 3px;
 }
+
+#status > span {
+    margin-right: 20px;
+}
+
 #inven_item {
     padding: 6px;
     color: #1692da;
@@ -79,8 +84,8 @@ body {
     width: 90px;
     height: 90px;
     font-size: 20px;
-    bottom: 110px;
-    left: 110px;
+    bottom: 170px;
+    right: 210px;
     position: fixed;
     border-radius: 35px;
     z-index: 1;
@@ -89,15 +94,15 @@ body {
 }
 
 .arrow.east {
-    position: fixed; bottom: 110px; left: 190px;
+    position: fixed; bottom: 170px; right: 130px;
     
 }
 .arrow.west {
-    position: fixed; bottom: 110px; left: 30px;
+    position: fixed; bottom: 170px; right: 290px;
 }
 .arrow.south {
-    position: fixed; bottom: 30px; left: 110px;
+    position: fixed; bottom: 90px; right: 210px;
 }
 .arrow.north {
-    position: fixed; bottom: 190px; left: 110px;
+    position: fixed; bottom: 250px; right: 210px;
 }

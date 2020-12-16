@@ -57,7 +57,7 @@ app.post('/signup', async (req, res) => {
         HP: Math.round(10 * (Math.random()) + 5),
         str: Math.round(4 * (Math.random()) + 3),
         def: Math.round(4 * (Math.random()) + 3),
-        resetCount:0,
+        resetCount: 0,
         x: 0,
         y: -1,
         exp: 0,
@@ -87,7 +87,7 @@ app.post('/action', authentication, async (req, res) => {
     invenItem = [];
     itemList = [];
     player.showInventory().forEach((elem) => {
-        invenItem.push(' '+ elem.material + ' ' + elem.name);
+        invenItem.push(' ' + elem.material + ' ' + elem.name);
     });
     const itemString = invenItem.join(', ');
     itemList = {
@@ -98,7 +98,7 @@ app.post('/action', authentication, async (req, res) => {
     if (action === 'query') {
         field = mapManager.getField(req.player.x, req.player.y);
 
-        return res.send({ player, field});
+        return res.send({ player, field });
     }
 
     // revive : 부활시 (0,0)으로 보냄과 동시에 랜덤아이템 하나 삭제
@@ -128,7 +128,7 @@ app.post('/action', authentication, async (req, res) => {
         itemList = {
             description: itemString,
         };
-        
+
         await player.save();
 
     } else if (action === 'restat') {
@@ -140,7 +140,7 @@ app.post('/action', authentication, async (req, res) => {
         const resetCount = player.incrementCOUNT();
         event = {
             title: '',
-            description: `스탯이 재분배되었습니다.( 재분배 가능횟수 : ${resetCount}/5 ) `,
+            description: `스탯이 재분배되었습니다. ( 재분배 가능횟수 : ${resetCount}/5 ) `,
         }
 
         await player.save();

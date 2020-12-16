@@ -25,8 +25,8 @@
         나의 위치: <span id="position">
     </div>
     <br />
-    <div id="Check Inventory">
-        <div id="inven_item"></div>
+    <div id="my_inventory">
+        인벤토리:<span id="inven_item">
     </div>
     <br />
     <div id="content">
@@ -62,7 +62,7 @@
     <br />
     <div id="control">
         <div>
-            <button value="-1" class="arrow2 restat">스탯 재분배</button>
+            <button value="-1" class="arrow2 restat">스탯<br />재분배</button>
         </div>
         <div>
             <button value="0" class="arrow north">┌</button>
@@ -99,9 +99,9 @@
                 }
 
                 if (invenItem === undefined) {
-                    $('#inven_item').text("Inventory : " + "현재 획득한 아이템이 없다.");
+                    $('#inven_item').text("");
                 } else {
-                    $('#inven_item').text("Inventory : " + invenItem);
+                    $('#inven_item').text(invenItem);
                 }
 
 
