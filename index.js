@@ -50,6 +50,7 @@ app.post('/signup', async (req, res) => {
         return res.status(400).send({ error: 'Player already exists' });
     }
 
+
     const player = new Player({
         name,
         maxHP: Math.round(10 * (Math.random()) + 5),
@@ -100,6 +101,9 @@ app.post('/action', authentication, async (req, res) => {
         return res.send({ player, field});
     }
 
+    // revive : 부활시 (0,0)으로 보냄과 동시에 랜덤아이템 하나 삭제
+    // restat : 캐릭터 생성시 랜덤 스탯분배(최대 5번가능)
+
     if (action === 'revive') {
         field = mapManager.getField(0, 0);
         player.HP = player.maxHP;
@@ -109,10 +113,6 @@ app.post('/action', authentication, async (req, res) => {
         player.exp = 0;
         player.level = 1;
         const lostItemId = player.lostItem();
-        console.log(lostItemId);
-        console.log(typeof lostItemId[0].buf);
-        console.log(typeof (-1) * lostItemId[0].buf);
-
         if (lostItemId.type === "방어") {
             player.incrementDEF((-1) * lostItemId[0].buf);
         } else {
@@ -128,7 +128,9 @@ app.post('/action', authentication, async (req, res) => {
         itemList = {
             description: itemString,
         };
+        
         await player.save();
+
     } else if (action === 'restat') {
         field = mapManager.getField(0, -1);
         player.maxHP = Math.round(10 * (Math.random()) + 5);
@@ -196,7 +198,7 @@ app.post('/action', authentication, async (req, res) => {
             }
 
             if (_event.type === 'battle') {
-                // TODO: 이벤트 별로 events.json 에서 불러와 이벤트 처리
+
                 const thisMonster = monsterManager.getMonster(_event.monster);
                 event = {
                     title: '! ! ! BATTLE ! ! !',
