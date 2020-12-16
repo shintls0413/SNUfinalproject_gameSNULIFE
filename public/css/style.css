@@ -40,6 +40,17 @@ body {
     font-style: oblique;
 }
 
+#ending_title {
+    width: 200px;
+    font-size: 50px;
+    font-style: bold;
+    margin: 0 auto;
+}
+
+#ending_description {
+    font-style: oblique;
+}
+
 .arrow {
     background: #1692da; position:relative;
     width: 90px;

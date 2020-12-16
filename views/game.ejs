@@ -52,6 +52,10 @@
         <div id="battle_content_12"></div>
         <br />
         <div id="battle_result"></div>
+        <div id="ending">
+            <div id="ending_title"></div>
+            <div id="ending_description"></div>
+        </div>
     </div>
     <br />
     <div id="control">
@@ -198,11 +202,22 @@
                 }
 
                 if (event) {
-                    $('#event_title').text(event.title);
-                    $('#event_result').text(event.description);
+                    if (event.title === 'The End....') {
+                        $('#event_title').text('');
+                        $('#event_result').text('');
+                        $('#ending_title').text(event.title);
+                        $('#ending_description').text(event.description);
+                    } else {
+                        $('#event_title').text(event.title);
+                        $('#event_result').text(event.description);
+                        $('#ending_title').text('');
+                        $('#ending_description').text('');
+                    }
                 } else {
                     $('#event_title').text('');
                     $('#event_result').text("아무일도 일어나지 않았다.");
+                    $('#ending_title').text('');
+                    $('#ending_description').text('');
                 }
             });
 
