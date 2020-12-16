@@ -57,7 +57,7 @@ app.post('/signup', async (req, res) => {
         HP: Math.round(10 * (Math.random()) + 5),
         str: Math.round(4 * (Math.random()) + 3),
         def: Math.round(4 * (Math.random()) + 3),
-        resetCount: 0,
+        resetCount:0,
         x: 0,
         y: -1,
         exp: 0,
@@ -84,22 +84,21 @@ app.post('/action', authentication, async (req, res) => {
     let battleResult = null;
     const battleContent = [];
     let dead = false;
-    let lostItem = null;
     invenItem = [];
     itemList = [];
     player.showInventory().forEach((elem) => {
-        invenItem.push(`${elem.material} ${elem.name}`);
+        invenItem.push(elem.material + ' ' + elem.name);
     });
     const itemString = invenItem.join(', ');
     itemList = {
         description: itemString,
     };
 
-    //    let levelUpResult = null;
+
     if (action === 'query') {
         field = mapManager.getField(req.player.x, req.player.y);
 
-        return res.send({ player, field });
+        return res.send({ player, field});
     }
 
     // revive : 부활시 (0,0)으로 보냄과 동시에 랜덤아이템 하나 삭제
@@ -113,25 +112,23 @@ app.post('/action', authentication, async (req, res) => {
         // player 경험치 초기화
         player.exp = 0;
         player.level = 1;
-        const lostItemArray = player.lostItem();
-        lostItem = lostItemArray[0];
-
-        if (lostItem.type === '방어') {
-            player.incrementDEF((-1) * lostItem.buf);
+        const lostItemId = player.lostItem();
+        if (lostItemId.type === "방어") {
+            player.incrementDEF((-1) * lostItemId[0].buf);
         } else {
-            player.incrementSTR((-1) * lostItem.buf);
+            player.incrementSTR((-1) * lostItemId[0].buf);
         }
 
         invenItem = [];
         itemList = [];
         player.showInventory().forEach((elem) => {
-            invenItem.push(`${elem.material} ${elem.name}`);
+            invenItem.push(elem.material + ' ' + elem.name);
         });
         const itemString = invenItem.join(', ');
         itemList = {
             description: itemString,
         };
-
+        
         await player.save();
 
     } else if (action === 'restat') {
@@ -144,22 +141,14 @@ app.post('/action', authentication, async (req, res) => {
         event = {
             title: '',
             description: `스탯이 재분배되었습니다.( 재분배 가능횟수 : ${resetCount}/5 ) `,
-        };
+        }
 
         await player.save();
     }
 
-    /* levelup action
-              if (action === 'levelUp') {
-                  player.level += 1
-                  player.str += 3
-                  player.def += 3
-                  player.maxHP += 3
-                  player.HP = player.maxHP;
-                  //player 경험치 초기화
-                  player.exp = 0;
-                  await player.save();
-              } */
+
+
+
     if (action === 'move') {
         const direction = parseInt(req.body.direction, 0); // 0 북. 1 동 . 2 남. 3 서.
         let { x } = req.player;
@@ -312,27 +301,9 @@ app.post('/action', authentication, async (req, res) => {
 
         await player.save();
     }
-    // else if (action === 'restat') {
-    //     player.maxHP = Math.round(10 * (Math.random()) + 5);
-    //     player.str = Math.round(4 * (Math.random()) + 3);
-    //     player.def = Math.round(4 * (Math.random()) + 3);
-    //     player.HP = player.maxHP;
-
-    //     await player.save();
-    // }
-
-    // field.canGo.forEach((direction, i) => {
-    //     if (direction === 1) {
-    //         actions.push({
-    //             url: '/action',
-    //             text: i,
-    //             params: { direction: i, action: 'move' },
-    //         });
-    //     }
-    // });
 
     return res.send({
-        player, field, event, actions, battleResult, battleContent, invenItem, itemList, dead, lostItem,
+        player, field, event, actions, battleResult, battleContent, invenItem, itemList, dead,
     });
 });
 
