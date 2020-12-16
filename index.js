@@ -84,6 +84,7 @@ app.post('/action', authentication, async (req, res) => {
     let battleResult = null;
     const battleContent = [];
     let dead = false;
+    let lostItem = null;
     invenItem = [];
     itemList = [];
     player.showInventory().forEach((elem) => {
@@ -112,11 +113,12 @@ app.post('/action', authentication, async (req, res) => {
         // player 경험치 초기화
         player.exp = 0;
         player.level = 1;
-        const lostItemId = player.lostItem();
-        if (lostItemId.type === "방어") {
-            player.incrementDEF((-1) * lostItemId[0].buf);
+        const lostItemArray = player.lostItem();
+        lostItem = lostItemArray[0];
+        if (lostItem.type === "방어") {
+            player.incrementDEF((-1) * lostItem.buf);
         } else {
-            player.incrementSTR((-1) * lostItemId[0].buf);
+            player.incrementSTR((-1) * lostItem.buf);
         }
 
         invenItem = [];
