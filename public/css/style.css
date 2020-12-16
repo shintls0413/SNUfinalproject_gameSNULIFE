@@ -1,4 +1,6 @@
 body { 
+    margin-right: 30px;
+    margin-left: 30px;
     background-color:white;
     font-family: Arial, Helvetica, sans-serif;
 }
@@ -26,6 +28,11 @@ body {
     font-weight: bold;
 
 }
+#game {
+    font-size: 18px;
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
 
 #content {
     margin-left: 50px;
@@ -41,13 +48,20 @@ body {
 }
 
 #ending_title {
-    width: 200px;
+    width: 100%;
     font-size: 50px;
     font-style: bold;
     margin: 0 auto;
 }
 
-#ending_description {
+#ending_description1, #ending_description2, #ending_description3, #ending_description4 {
+    width: 100%;
+    margin: 0 auto;
+}
+
+#ending_description5 {
+    width: 100%;
+    margin: 0 auto;
     font-style: oblique;
 }
 

@@ -32,7 +32,13 @@
     <div id="content">
         <div id="lost_item"><I></I></div>
         <br />
+        <div id="ending_title"></div>
         <div id="game"></div>
+        <div id="ending_description1"></div>
+        <div id="ending_description2"></div>
+        <div id="ending_description3"></div>
+        <div id="ending_description4"></div>
+        <div id="ending_description5"></div>
         <br />
         <div id="event_title"></div>
         <div id="event_result"></div>
@@ -52,10 +58,6 @@
         <div id="battle_content_12"></div>
         <br />
         <div id="battle_result"></div>
-        <div id="ending">
-            <div id="ending_title"></div>
-            <div id="ending_description"></div>
-        </div>
     </div>
     <br />
     <div id="control">
@@ -205,19 +207,49 @@
                     if (event.title === 'The End....') {
                         $('#event_title').text('');
                         $('#event_result').text('');
-                        $('#ending_title').text(event.title);
-                        $('#ending_description').text(event.description);
+                        $('#ending_title').text('');
+                        $('#ending_description1').text('');
+                        $('#ending_description2').text('');
+                        $('#ending_description3').text('');
+                        $('#ending_description4').text('');
+
+                        setTimeout(function () {
+                            $('#ending_title').text(event.title);
+                        }, 1000);
+                        setTimeout(function () {
+                            $('#ending_description1').text('그렇게 양진환 선생님을 물리쳤나 싶었지만 그것은 코딩이 만들어 낸 허상이였다.');
+                        }, 2000);
+                        setTimeout(function () {
+                            $('#ending_description2').text('그리고 허상이 쓰러진 자리에는 진짜 양진환 선생님의 위치를 알려주는 단서가 떨어져있었다.');
+                        }, 3000);
+                        setTimeout(function () {
+                            $('#ending_description3').text('그 쪽지를 펼쳐보니 -진짜 나를 찾고 싶다면 웹프2를 수강해라- 라는 말이 적혀있었다.');
+                        }, 4000);
+                        setTimeout(function () {
+                            $('#ending_description4').text('당신의 선택은?');
+                        }, 5000);
+                        setTimeout(function () {
+                            $('#ending_description5').text(event.description);
+                        }, 6000);
                     } else {
                         $('#event_title').text(event.title);
                         $('#event_result').text(event.description);
                         $('#ending_title').text('');
-                        $('#ending_description').text('');
+                        $('#ending_description1').text('');
+                        $('#ending_description2').text('');
+                        $('#ending_description3').text('');
+                        $('#ending_description4').text('');
+                        $('#ending_description5').text('');
                     }
                 } else {
                     $('#event_title').text('');
                     $('#event_result').text("아무일도 일어나지 않았다.");
                     $('#ending_title').text('');
-                    $('#ending_description').text('');
+                    $('#ending_description1').text('');
+                    $('#ending_description2').text('');
+                    $('#ending_description3').text('');
+                    $('#ending_description4').text('');
+                    $('#ending_description5').text('');
                 }
             });
 
