@@ -87,7 +87,7 @@ app.post('/action', authentication, async (req, res) => {
     invenItem = [];
     itemList = [];
     player.showInventory().forEach((elem) => {
-        invenItem.push(elem.material + ' ' + elem.name);
+        invenItem.push(' '+ elem.material + ' ' + elem.name);
     });
     const itemString = invenItem.join(', ');
     itemList = {
