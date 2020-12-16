@@ -5,8 +5,8 @@
 신상원, 공나영, 백승원, 박준혁
 
 # Codesandbox Link
-코드 : https://codesandbox.io/s/sharp-snow-opqym
-게임 : https://opqym.sse.codesandbox.io/
+코드 : https://codesandbox.io/s/winter-http-fzvqi
+게임 : https://fzvqi.sse.codesandbox.io/
 
 # 기본 구성
 수업시간에 배운 express, mongoose르 활용하여 개발 하였으며 실시간으로 데이터가 저장되도록 하였음. 또한 게임 내부 정보인 아이템, 맵 등의 정보는 json형태로 서버에서 따로 보관하였다.
