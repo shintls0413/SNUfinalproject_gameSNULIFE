@@ -94,7 +94,7 @@ app.post('/action', authentication, async (req, res) => {
         description: itemString,
     };
 
-    //    let levelUpResult = null;
+
     if (action === 'query') {
         field = mapManager.getField(req.player.x, req.player.y);
 
@@ -148,17 +148,7 @@ app.post('/action', authentication, async (req, res) => {
 
 
 
-    /* levelup action
-            if (action === 'levelUp') {
-                player.level += 1
-                player.str += 3
-                player.def += 3
-                player.maxHP += 3
-                player.HP = player.maxHP;
-                //player 경험치 초기화
-                player.exp = 0;
-                await player.save();
-            } */
+
     if (action === 'move') {
         const direction = parseInt(req.body.direction, 0); // 0 북. 1 동 . 2 남. 3 서.
         let { x } = req.player;
@@ -311,24 +301,6 @@ app.post('/action', authentication, async (req, res) => {
 
         await player.save();
     }
-    // else if (action === 'restat') {
-    //     player.maxHP = Math.round(10 * (Math.random()) + 5);
-    //     player.str = Math.round(4 * (Math.random()) + 3);
-    //     player.def = Math.round(4 * (Math.random()) + 3);
-    //     player.HP = player.maxHP;
-
-    //     await player.save();
-    // }
-
-    // field.canGo.forEach((direction, i) => {
-    //     if (direction === 1) {
-    //         actions.push({
-    //             url: '/action',
-    //             text: i,
-    //             params: { direction: i, action: 'move' },
-    //         });
-    //     }
-    // });
 
     return res.send({
         player, field, event, actions, battleResult, battleContent, invenItem, itemList, dead,
