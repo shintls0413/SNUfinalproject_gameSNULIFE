@@ -78,6 +78,7 @@ body {
     transform: rotate(45deg);
     color: white;
     border-color: white;
+    z-index: 1;
 }
 .arrow2 {
     background: #1692da; position:relative;
@@ -88,7 +89,7 @@ body {
     right: 210px;
     position: fixed;
     border-radius: 35px;
-    z-index: 1;
+    z-index: 2;
     color: white;
     border-color: white;
 }
@@ -111,7 +112,6 @@ body {
     position: fixed;
     top: 150px;
     right: 70px;
-    z-index: 1;
 }
 
 #map > img {
