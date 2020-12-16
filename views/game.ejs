@@ -8,56 +8,61 @@
 </head>
 
 <body>
-    <div><img src="../images/logo.png" alt="스누라이프 로고" height="50"/></div>
+    <div><img src="../images/logo.png" alt="스누라이프 로고" height="50" /></div>
 
 
     <div id="status">
         이름: <span id="name"> 베네프 </span>
-        <br/>
+        <br />
         HP: <span id="HP"> 10 / 10</span>
         STR: <span id="STR"> 5 / 5</span>
         DEF: <span id="DEF"> 5 / 5</span>
         EXP: <span id="EXP"> 0</span>
         LEVEL: <span id="LEVEL"> 1</span>
     </div>
-    <br/>
+    <br />
     <div id="my_position">
         나의 위치: <span id="position">
-   </div>
-    <br />
-    <div id="Check Inventory">
-        <!--<button value="20">인벤토리 보기</button>-->
-        <div id="inven_item"></div>
-        <!--<button value="21">인벤토리 끄기</button>-->
     </div>
     <br />
-    <div id="game"></div>
+    <div id="Check Inventory">
+        <div id="inven_item"></div>
+    </div>
     <br />
-    <div id="event_title"></div>
-    <div id="event_result"></div>
-    <br />
-    <div id="battle_content_1"></div>
-    <div id="battle_content_2"></div>
-    <div id="battle_content_3"></div>
-    <div id="battle_content_4"></div>
-    <div id="battle_content_5"></div>
-    <div id="battle_content_6"></div>
-    <div id="battle_content_7"></div>
-    <div id="battle_content_8"></div>
-    <div id="battle_content_9"></div>
-    <div id="battle_content_10"></div>
-    <br />
-    <div id="battle_result"></div>
+    <div id="content">
+        <div id="lost_item"><I></I></div>
+        <br />
+        <div id="game"></div>
+        <br />
+        <div id="event_title"></div>
+        <div id="event_result"></div>
+        <br />
+        <div id="battle_content_1"><I></I></div>
+        <div id="battle_content_2"><I></I></div>
+        <br />
+        <div id="battle_content_3"></div>
+        <div id="battle_content_4"></div>
+        <div id="battle_content_5"></div>
+        <div id="battle_content_6"></div>
+        <div id="battle_content_7"></div>
+        <div id="battle_content_8"></div>
+        <div id="battle_content_9"></div>
+        <div id="battle_content_10"></div>
+        <div id="battle_content_11"></div>
+        <div id="battle_content_12"></div>
+        <br />
+        <div id="battle_result"></div>
+    </div>
     <br />
     <div id="control">
         <div>
-            <button value="-1" class="arrow2 restat">스탯 재분배</button>    
+            <button value="-1" class="arrow2 restat">스탯 재분배</button>
         </div>
         <div>
             <button value="0" class="arrow north">┌</button>
             <button value="3" class="arrow west">└</button>
             <button value="1" class="arrow east">┐</button>
-            <button value="2" class="arrow south">┘</button>    
+            <button value="2" class="arrow south">┘</button>
         </div>
         <div>
             <button value="5" class="arrow2 revive">부활</button>
@@ -75,23 +80,29 @@
                 method: "POST",
                 data: `action=${action}&direction=${params.direction}`,
             }).done((req) => {
-                const { player, field, event, battleResult, battleContent, levelUpResult, invenItem, itemList, dead } = req;
+                const { player, field, event, battleResult, battleContent, levelUpResult, invenItem, itemList, dead, lostItem } = req;
                 $('#game').text(field.description);
                 $('#position').text(`(${field.x},${field.y})`);
                 const x = field.x;
                 const y = field.y;
-                
-                if(invenItem === undefined){
-                    $('#inven_item').text("Inventory : "+"현재 획득한 아이템이 없다." );
-                }else{
+
+                if (lostItem) {
+                    $('#lost_item').text(`*** 부활로 인해 ${lostItem.material} ${lostItem.name}을 잃어버렸다. ***`);
+                } else {
+                    $('#lost_item').text('');
+                }
+
+                if (invenItem === undefined) {
+                    $('#inven_item').text("Inventory : " + "현재 획득한 아이템이 없다.");
+                } else {
                     $('#inven_item').text("Inventory : " + invenItem);
                 }
-                
+
 
                 if (x === 0 && y === -1) {
                     $('button[value="-1"]').unbind('click');
                     $('button[value="-1"]').show();
-                    if(player.resetCount>4){
+                    if (player.resetCount > 4) {
                         $('button[value="-1"]').hide();
                     }
                     $('button[value="-1"]').bind('click', function () {
@@ -102,7 +113,7 @@
                     $('button[value="-1"]').unbind('click');
                 }
 
-                for (let i = 1; i <= 10; i++) {
+                for (let i = 1; i <= 12; i++) {
                     $('#battle_content_' + i).text('');
                 }
 
