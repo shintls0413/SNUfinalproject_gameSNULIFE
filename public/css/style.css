@@ -1,5 +1,7 @@
 body { 
-    background-color:white; }
+    background-color:white;
+    font-family: Arial, Helvetica, sans-serif;
+}
 #my_position {
     color: #1692da;
     font-size: 16px;
@@ -24,9 +26,20 @@ body {
     font-weight: bold;
 
 }
+
+#content {
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
 #event_title {
     font-weight: bold;
 }
+
+#lost_item, #battle_content_1, #battle_content_2 {
+    font-style: oblique;
+}
+
 .arrow {
     background: #1692da; position:relative;
     width: 90px;
