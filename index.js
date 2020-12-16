@@ -59,7 +59,6 @@ app.post('/signup', async (req, res) => {
         resetCount:0,
         x: 0,
         y: -1,
-        // exp 기본값 추가
         exp: 0,
         level: 1,
     });
