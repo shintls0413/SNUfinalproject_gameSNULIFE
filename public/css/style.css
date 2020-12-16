@@ -9,7 +9,7 @@ body {
     font-size: 16px;
     font-family: Arial, Helvetica, sans-serif;
     font-weight: bold;
-    margin: 0 20px;
+    margin: 0 330px 0 20px;
 }
 #status {
     margin-top: 8px;
@@ -84,7 +84,7 @@ body {
     width: 90px;
     height: 90px;
     font-size: 20px;
-    bottom: 170px;
+    bottom: 160px;
     right: 210px;
     position: fixed;
     border-radius: 35px;
@@ -94,15 +94,26 @@ body {
 }
 
 .arrow.east {
-    position: fixed; bottom: 170px; right: 130px;
+    position: fixed; bottom: 150px; right: 130px;
     
 }
 .arrow.west {
-    position: fixed; bottom: 170px; right: 290px;
+    position: fixed; bottom: 150px; right: 290px;
 }
 .arrow.south {
-    position: fixed; bottom: 90px; right: 210px;
+    position: fixed; bottom: 70px; right: 210px;
 }
 .arrow.north {
-    position: fixed; bottom: 250px; right: 210px;
+    position: fixed; bottom: 240px; right: 210px;
+}
+
+#map {
+    position: fixed;
+    top: 150px;
+    right: 70px;
+    z-index: 1;
+}
+
+#map > img {
+    width: 250px;
 }
